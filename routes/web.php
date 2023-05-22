@@ -38,3 +38,15 @@ Route::get('/home', function () {
 Route::get('/dashboard', function () {
     return view('dashboard');
 });
+
+Route::get('/admin-page', function () {
+    return 'Halaman untuk Admin';
+})->middleware('role:admin')->name('admin.page');
+
+Route::get('pimpinan-page', function () {
+    return 'Halaman untuk pimpinan';
+})->middleware('role:pimpinan')->name('pimpinan.page');
+
+Route::get('pegawai-page', function () {
+    return 'Halaman untuk pegawai';
+})->middleware('role:pegawai')->name('pegawai.page');
