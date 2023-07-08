@@ -127,9 +127,9 @@ a:not(.btn-social-icon):not(.btn-social):not(.page-link) .fab {
   color: #3abaf4 !important;
 }
 
-.text-warning, .text-warning-all *, .text-warning-all *:before, .text-warning-all *:after {
+/* .text-warning, .text-warning-all *, .text-warning-all *:before, .text-warning-all *:after {
   color: #ffa426 !important;
-}
+} */
 
 .text-danger, .text-danger-all *, .text-danger-all *:before, .text-danger-all *:after {
   color: #fc544b !important;
@@ -784,13 +784,13 @@ select.form-control:not([size]):not([multiple]) {
 .card .card-header .form-control + .input-group-btn .btn {
   margin-top: -1px;
 }
-.card .card-header h4 {
+/* .card .card-header h4 {
   font-size: 16px;
   line-height: 28px;
   color: #6777ef;
   padding-right: 10px;
   margin-bottom: 0;
-}
+} */
 .card .card-header h4 + .card-header-action,
 .card .card-header h4 + .card-header-form {
   margin-left: auto;
@@ -890,9 +890,9 @@ select.form-control:not([size]):not([multiple]) {
 .card.card-danger {
   border-top: 2px solid #fc544b;
 }
-.card.card-warning {
+/* .card.card-warning {
   border-top: 2px solid #ffa426;
-}
+} */
 .card.card-info {
   border-top: 2px solid #3abaf4;
 }
@@ -1588,7 +1588,7 @@ h6 .badge {
   color: #fff !important;
 }
 
-.btn-warning, .btn-warning.disabled {
+/* .btn-warning, .btn-warning.disabled {
   box-shadow: 0 2px 6px #ffc473;
   background-color: #ffa426;
   border-color: #ffa426;
@@ -1597,7 +1597,7 @@ h6 .badge {
 .btn-warning:hover, .btn-warning:focus, .btn-warning:active, .btn-warning.disabled:hover, .btn-warning.disabled:focus, .btn-warning.disabled:active {
   background-color: #ff990d !important;
   color: #fff !important;
-}
+} */
 
 .btn-outline-warning:hover, .btn-outline-warning:focus, .btn-outline-warning:active, .btn-outline-warning.disabled:hover, .btn-outline-warning.disabled:focus, .btn-outline-warning.disabled:active {
   background-color: #ffa426 !important;
@@ -1881,7 +1881,7 @@ h6 .badge {
   box-shadow: rgba(103, 119, 239, 0.2) rgba(0, 0, 0, 0.03);
 }
 
-.navbar-bg {
+/* .navbar-bg {
   content: " ";
   position: absolute;
   top: 0;
@@ -1890,7 +1890,7 @@ h6 .badge {
   height: 115px;
   background-color: #6777ef;
   z-index: -1;
-}
+} */
 
 .navbar {
   align-items: center;

@@ -1,12 +1,80 @@
 @extends('layouts.main')
 @section('content')
 <section class="section">
-  <div class="section-header">
-    <h1>Dashboard</h1>
-</div>
+    <div class="section-header">
+      <h1>{{ $title }}</h1>
+      <div class="section-header-breadcrumb">
+        <div class="breadcrumb-item active"><a href="#">{{ $title }}</a></div>
+        {{-- <div class="breadcrumb-item"><a href="#">Layout</a></div> --}}
+        <div class="breadcrumb-item">{{ $title }}</div>
+      </div>
+  </div>
 
-<div class="section-body">
-      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores impedit fuga nam, atque magnam, molestiae aspernatur nesciunt, adipisci voluptatum quia velit nulla quis nobis sunt! Suscipit possimus ut libero provident quos alias harum architecto iste reprehenderit! Aliquam ullam quaerat, minus eum pariatur, mollitia accusantium nemo aut enim reiciendis tempora officiis eligendi perferendis praesentium numquam. Possimus recusandae quidem explicabo deserunt tempore veniam nesciunt eveniet excepturi minus vitae aspernatur adipisci at dolorem laboriosam laborum ducimus, voluptatum a sed perferendis. Dolorem assumenda fugiat ipsa excepturi laborum eaque ipsum minus, quo, mollitia earum voluptatibus?</p>
+  <div class="section-body">
+    @if (auth()->user()->role=="Admin")
+    <div class="row">
+      <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+        <div class="card card-statistic-1">
+          <div class="card-icon bg-primary">
+            <i class="far fa-user"></i>
+          </div>
+          <div class="card-wrap">
+            <div class="card-header">
+              <h4>Total Admin</h4>
+            </div>
+            <div class="card-body">
+              10
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+        <div class="card card-statistic-1">
+          <div class="card-icon bg-danger">
+            <i class="far fa-newspaper"></i>
+          </div>
+          <div class="card-wrap">
+            <div class="card-header">
+              <h4>News</h4>
+            </div>
+            <div class="card-body">
+              42
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+        <div class="card card-statistic-1">
+          <div class="card-icon bg-warning">
+            <i class="far fa-file"></i>
+          </div>
+          <div class="card-wrap">
+            <div class="card-header">
+              <h4>Reports</h4>
+            </div>
+            <div class="card-body">
+              1,201
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+        <div class="card card-statistic-1">
+          <div class="card-icon bg-success">
+            <i class="fas fa-circle"></i>
+          </div>
+          <div class="card-wrap">
+            <div class="card-header">
+              <h4>Online Users</h4>
+            </div>
+            <div class="card-body">
+              47
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    @endif
   </div>
 </section>
     
