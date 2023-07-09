@@ -11,9 +11,9 @@ class KeranjangController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index_pegawai()
     {
-        return view('keranjang_pinjam.index', [
+        return view('keranjang_pinjam.index_pegawai', [
             'title' => 'Keranjang Pinjam'
         ]);
     }

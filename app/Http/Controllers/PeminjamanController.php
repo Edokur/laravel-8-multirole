@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class PeminjamanController extends Controller
 {
@@ -17,6 +18,8 @@ class PeminjamanController extends Controller
             'title' => 'Data Peminjaman'
         ]);
     }
+
+
 
     /**
      * Show the form for creating a new resource.
@@ -82,5 +85,28 @@ class PeminjamanController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+
+    // Halaman Pegawai 
+    public function index_pegawai()
+    {
+        return view('peminjaman.index_pegawai', [
+            'title' => 'Data Peminjaman'
+        ]);
+    }
+
+    public function informasi_barang($kode_barang)
+    {
+        // dd($id);
+
+        $barang = DB::table('barang_detail')
+            ->leftJoin('barang', 'barang_detail.barang_id', '=', 'barang.id')
+            ->where('barang_detail.kode_barang', $kode_barang)
+            ->get();
+        // dd($barang);
+        return view('peminjaman.informasi_barang', compact('barang'), [
+            'title' => 'Keranjang Pinjam'
+        ]);
     }
 }

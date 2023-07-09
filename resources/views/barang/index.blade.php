@@ -27,11 +27,10 @@
                       <th class="text-center">
                         No
                       </th>
-                      {{-- <th>Kode Barang</th> --}}
                       <th>Nama Barang</th>
                       <th>Tanggal Registrasi</th>
                       <th>Pendistribusian</th>
-                      <th>Jumlah</th>
+                      <th>Jumlah Brand</th>
                       <th>Aksi</th>
                     </tr>
                   </thead>
@@ -80,3 +79,7 @@
   </div>
 </div>
 @endsection
+
+@push('script')
+<script src="{{ asset('/') }}assets/js/barang.js"></script>
+@endpush

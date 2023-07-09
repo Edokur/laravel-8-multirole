@@ -13,18 +13,20 @@
 
           <li class="menu-header">DATA</li>
           @if (auth()->user()->role=="Admin")
-            <li class="{{ ($title == 'Data Pengguna') ? 'active' : '' }}"><a class="nav-link" href="/pengguna"><i class="fas fa-columns"></i> <span>Data Pengguna</span></a></li>
-          @endif
+          <li class="{{ ($title == 'Data Pengguna') ? 'active' : '' }}"><a class="nav-link" href="/pengguna"><i class="fas fa-columns"></i> <span>Data Pengguna</span></a></li>
           <li class="{{ ($title == 'Data Peminjaman') ? 'active' : '' }}"><a class="nav-link" href="/peminjaman"><i class="far fa-square"></i> <span>Data Peminjaman</span></a></li>
           <li class="{{ ($title == 'Data Barang') ? 'active' : '' }}"><a class="nav-link" href="/barang"><i class="fas fa-th"></i> <span>Data Barang</span></a></li>
-          @if (auth()->user()->role=="Admin")
-          <li class="{{ ($title == 'Data Perhitungan') ? 'active' : '' }}"><a class="nav-link" href="/perhitungan"><i class="fas fa-th-large"></i> <span>Data Perhitungan</span></a></li>
+          <li class="{{ ($title == 'Data Perhitungan') ? 'active' : '' }}"><a class="nav-link" href="/perhitungan"><i class="fas fa-th-large"></i> <span>Data Perhitungan</span></a></li>          @endif
+
+          @if(auth()->user()->role=="Pegawai")
+          <li class="{{ ($title == 'Data Peminjaman') ? 'active' : '' }}"><a class="nav-link" href="/peminjaman_pegawai"><i class="far fa-square"></i> <span>Data Peminjaman</span></a></li>
+          <li class="{{ ($title == 'Data Barang') ? 'active' : '' }}"><a class="nav-link" href="/barang_pegawai"><i class="fas fa-th"></i> <span>Data Barang</span></a></li>
           @endif
           
           <li class="menu-header">PROFILE</li>
           <li class="{{ ($title == 'Profile') ? 'active' : '' }}"><a class="nav-link" href="/profile"><i class="far fa-user"></i> <span>Profile</span></a></li>
-          @if (auth()->user()->role=="Admin")
-          <li class="{{ ($title == 'Keranjang Pinjam') ? 'active' : '' }}"><a class="nav-link" href="/keranjang"><i class="far fa-user"></i> <span>Keranjang Pinjam</span></a></li>
+          @if (auth()->user()->role=="Pegawai")
+          <li class="{{ ($title == 'Keranjang Pinjam') ? 'active' : '' }}"><a class="nav-link" href="/keranjang_pegawai"><i class="far fa-user"></i> <span>Keranjang Pinjam</span></a></li>
           @endif
       </ul>
     </aside>

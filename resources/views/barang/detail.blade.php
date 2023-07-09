@@ -30,6 +30,7 @@
                             <th>Kode Barang</th>
                             <th>Brand Barang</th>
                             <th>Harga Barang</th>
+                            <th>Stok Barang</th>
                             <th>Kondisi Barang</th>
                             <th>Aksi</th>
                             <th>QR Code</th>
@@ -227,7 +228,7 @@
             <div class="modal-body">
             <form action="POST" id="QrcodeBarangDetailForm" name="QrcodeBarangDetailForm" class="form-horizontal">
                 <div class="form-group text-center mt-3">    
-                    <img src="data:image/png;base64, {!! base64_encode(QrCode::errorCorrection('H')->format('png')->merge('\public\assets\img\logo-beecon.png', .3)->size(300)->generate($item->kode_barang)) !!} ">
+                    <img src="data:image/png;base64, {!! base64_encode(QrCode::errorCorrection('H')->format('png')->size(300)->generate($item->kode_barang)) !!} ">
                     {{-- <img src="storage/app/{{ $item->qr_code}}"> --}}
                     {{-- {{ (new \App\Helpers\Helpers)->Create_Qrcode($item->kode_barang) }} --}}
                 </div>
@@ -267,6 +268,7 @@
                 { data: 'kode_barang', name: 'kode_barang' },
                 { data: 'brand_barang', name: 'brand_barang'},
                 { data: 'harga_barang', name: 'harga_barang'},
+                { data: 'jumlah_barang', name: 'jumlah_barang'},
                 { data: 'kondisi_barang', name: 'kondisi_barang'},
                 { data: 'action', name: 'action', className: 'text-center', orderable: false, searchable: false },
                 { data: 'qr_code', name: 'qr_code', orderable: false, searchable: false, render: function (data, type, row, meta) {

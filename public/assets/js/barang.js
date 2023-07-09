@@ -17,7 +17,7 @@ $(function() {
             { data: 'nama_barang', name: 'nama_barang'},
             { data: 'tanggal_registrasi', name: 'tanggal_registrasi'},
             { data: 'pendistribusian', name: 'pendistribusian', orderable: false, searchable: false},
-            { data: 'jumlah', name: 'jumlah', searchable: false},
+            { data: 'jumlah', name: 'jumlah', className: 'text-center', searchable: false},
             { data: 'action', name: 'action', orderable: false, searchable: false },
         ]
     });

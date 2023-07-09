@@ -48,7 +48,7 @@
                     <div class="d-block">
                     	<label for="password" class="control-label">Password</label>
                       <div class="float-right">
-                        <a href="{{ route('forget.get') }}" class="text-small" style="color:#FED116">
+                        <a href="{{ route('forget.get') }}" class="text-small text-warning">
                           Forgot Password?
                         </a>
                       </div>

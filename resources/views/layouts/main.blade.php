@@ -20,6 +20,7 @@
   <link rel="stylesheet" href="{{ asset('/') }}assets/css/style.css">
   <link rel="stylesheet" href="{{ asset('/') }}assets/css/components.css">
   <link rel="stylesheet" href="{{ asset('/') }}assets/css/custom.css">
+  <link rel="stylesheet" href="{{ asset('/') }}assets/css/html5-qrcode-css.css">
 
   <meta name="csrf-token" content="{{ csrf_token() }}">
 </head>
@@ -61,15 +62,16 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html5-qrcode/2.0.1/html5-qrcode.min.js"></script>
 
   <!-- Template JS File -->
+  <script src="{{ asset('/') }}assets/js/html5-qrcode-css.js"></script>
   <script src="{{ asset('/') }}assets/js/scripts.js"></script>
   <script src="{{ asset('/') }}assets/js/custom.js"></script>
 
   <!-- Page Specific JS File -->
   <script src="{{ asset('/') }}assets/js/pengguna.js"></script>
   <script src="{{ asset('/') }}assets/js/profile.js"></script>
-  <script src="{{ asset('/') }}assets/js/barang.js"></script>
   {{-- <script src="{{ asset('/') }}assets/js/barang_detail.js"></script> --}}
   <script src="{{ asset('/') }}assets/js/perhitungan.js"></script>
   @stack('script')

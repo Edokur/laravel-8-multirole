@@ -137,55 +137,10 @@ class BarangController extends Controller
         return $response;
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
-
     public function detail($id)
     {
         $barang = DB::table('barang_detail as bd')
-            ->select('bd.id', 'bd.kode_barang', 'bd.brand_barang', 'bd.harga_barang', 'bd.kondisi_barang', 'bd.qr_code')
+            ->select('bd.id', 'bd.kode_barang', 'bd.brand_barang', 'bd.harga_barang', 'bd.kondisi_barang', 'bd.qr_code', 'bd.jumlah_barang')
             ->leftJoin('barang as b', 'bd.barang_id', '=', 'b.id')
             ->where('barang_id', $id)
             ->get();
@@ -255,9 +210,8 @@ class BarangController extends Controller
             $path = public_path('assets/img/qrcode/' . $kode_barang . '.png');
 
             $data = QrCode::format('png')
-                ->merge('\public\assets\img\logo-beecon.png', .3)
-                ->size(500)->errorCorrection('H')
-                ->generate($kode_barang, $path);
+                ->size(580)->color(0, 0, 0)->backgroundColor(255, 255, 255)->errorCorrection('H')->margin(2)
+                ->generate(url($kode_barang), $path);
             $output_file = $kode_barang . '.png';
             // $output_file = 'img-' . $kode_barang . '.png';
             // $data = Storage::disk('public')->put($output_file, $image);
@@ -377,5 +331,63 @@ class BarangController extends Controller
         // $images = File::allFiles(public_path('\assets\img\qrcode'));
         // print_r($images);
         // return response()->download($ha);
+    }
+
+    // Halaman pegawai 
+
+    public function index_pegawai(Request $request)
+    {
+        $barang_pegawai = Barang::all();
+        if ($request->ajax()) {
+            $allData = DataTables::of($barang_pegawai)
+                ->addIndexColumn()
+                ->addColumn('jumlah', function ($row) {
+                    return $this->jumlahBarang($row->id);
+                })
+                ->rawColumns(['jumlah'])
+                ->addColumn('action', function ($row) {
+                    $btn = '<a href="/barang_pegawai/detail/' . $row->id . '" data-toggle-"tooltip" data-id="' . $row->id . '" data-original-title="detail" class="mr-1 detail btn btn-info btn-sm detailBarang"><svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512"><style>svg{fill:#ffffff}</style><path d="M64 32C28.7 32 0 60.7 0 96v64c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V96c0-35.3-28.7-64-64-64H64zm280 72a24 24 0 1 1 0 48 24 24 0 1 1 0-48zm48 24a24 24 0 1 1 48 0 24 24 0 1 1 -48 0zM64 288c-35.3 0-64 28.7-64 64v64c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V352c0-35.3-28.7-64-64-64H64zm280 72a24 24 0 1 1 0 48 24 24 0 1 1 0-48zm56 24a24 24 0 1 1 48 0 24 24 0 1 1 -48 0z"/></svg></a>';
+                    return $btn;
+                })
+                ->rawColumns(['action'])
+                ->make(true);
+
+            return $allData;
+        }
+
+        return view('barang.index_pegawai', compact('barang_pegawai'), [
+            'title' => 'Data Barang',
+        ]);
+    }
+
+    public function detail_pegawai($id)
+    {
+        $barang_detail = DB::table('barang_detail as bd')
+            ->select('bd.id', 'bd.kode_barang', 'bd.brand_barang', 'bd.harga_barang', 'bd.kondisi_barang', 'bd.jumlah_barang')
+            ->leftJoin('barang as b', 'bd.barang_id', '=', 'b.id')
+            ->where('barang_id', $id)
+            ->get();
+
+        if (request()->ajax()) {
+            $allData = DataTables::of($barang_detail)
+                ->addIndexColumn()
+                ->addColumn('action', function ($row) {
+                    $btn = '<a href="javascript:void(0)" data-toggle-"tooltip" data-kode_barang="' . $row->kode_barang . '" data-original-title="detail" class="mr-1 detail btn btn-info btn-sm modaldetailBarangPegawai"><svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512"><style>svg{fill:#ffffff}</style><path d="M64 32C28.7 32 0 60.7 0 96v64c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V96c0-35.3-28.7-64-64-64H64zm280 72a24 24 0 1 1 0 48 24 24 0 1 1 0-48zm48 24a24 24 0 1 1 48 0 24 24 0 1 1 -48 0zM64 288c-35.3 0-64 28.7-64 64v64c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V352c0-35.3-28.7-64-64-64H64zm280 72a24 24 0 1 1 0 48 24 24 0 1 1 0-48zm56 24a24 24 0 1 1 48 0 24 24 0 1 1 -48 0z"/></svg></a>';
+                    return $btn;
+                })
+                ->rawColumns(['action'])
+                ->make(true);
+
+            return $allData;
+        }
+
+        $data_barang = DB::table('barang')
+            ->where('id', $id)
+            ->get();
+
+        return view('barang.detail_pegawai', compact('barang_detail'), [
+            'title' => 'Data Barang',
+            'nama_barang' => $data_barang[0]->nama_barang,
+        ]);
     }
 }

@@ -48,8 +48,6 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 // });
 
 Route::group(['middleware' => ['auth', 'cekrole:Admin']], function () {
-    // Route::get('/dashboard', [DashboardController::class, 'index']);
-    // Route::resource('pengguna', PenggunaController::class);
     route::get('/pengguna', [PenggunaController::class, 'index']);
     Route::post('/pengguna/changestatus', [PenggunaController::class, 'changestatus']);
     Route::post('/pengguna/store', [PenggunaController::class, 'store']);
@@ -78,6 +76,22 @@ Route::group(['middleware' => ['auth', 'cekrole:Admin']], function () {
     // route::get('/barang/detail', [Barang_detailController::class, 'index']);
     // Route::get('/pengguna/json', [PenggunaController::class, 'json']);
     // Route::get('/test', fn () => phpinfo());
+
+});
+
+Route::group(['middleware' => ['auth', 'cekrole:Pegawai']], function () {
+    route::get('/peminjaman_pegawai', [PeminjamanController::class, 'index_pegawai']);
+    route::get('/peminjaman_pegawai/informasi_barang/{id}', [PeminjamanController::class, 'informasi_barang'])->name('informasi_barang');
+
+    route::get('/keranjang_pegawai', [KeranjangController::class, 'index_pegawai']);
+
+    // route::get('/keranjang_pegawai', [KeranjangController::class, 'index_pegawai']);
+
+    route::get('/barang_pegawai', [BarangController::class, 'index_pegawai']);
+    route::get('/barang_pegawai/detail/{id}', [BarangController::class, 'detail_pegawai']);
+    route::post('/barang_pegawai/detail/{id}/datadetail', [BarangController::class, 'datadetail']);
+    // Route::get('/dashboard', [DashboardController::class, 'index']);
+    // route::get('/pengguna', [PenggunaController::class, 'index']);
 });
 
 Route::group(['middleware' => ['auth', 'cekrole:Pimpinan']], function () {
