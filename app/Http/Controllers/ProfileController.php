@@ -126,7 +126,6 @@ class ProfileController extends Controller
 
         if (auth()->user()->photo == null) {
             if ($request->hasfile('file_photo')) {
-                // $filename = round(microtime(true) * 1000) . '-' . str_replace(' ', '-', $request->file('file_photo')->getClientOriginalName());
                 $filename = $request->file('file_photo')->getClientOriginalName();
                 $request->file('file_photo')->move(public_path('assets\profile'), $filename);
                 $output = DB::table('users')
@@ -150,11 +149,9 @@ class ProfileController extends Controller
                 if ($request->hasFile('file_photo') && $request->file_photo != '') {
                     $image = User::where('id', $id)->first();
                     $file_path = public_path() . '\assets\profile\\' . $image['photo'];
-                    // $data_path = round(microtime(true) * 1000) . '-' . str_replace(' ', '-', $file_path);
                     if ($file_path != null) {
                         unlink($file_path);
                     }
-                    // $filename = round(microtime(true) * 1000) . '-' . str_replace(' ', '-', $request->file('file_photo')->getClientOriginalName());
                     $filename = $request->file('file_photo')->getClientOriginalName();
                     $request->file('file_photo')->move(public_path('assets\profile'), $filename);
                     $output = DB::table('users')

@@ -65,6 +65,7 @@ Route::group(['middleware' => ['auth', 'cekrole:Admin']], function () {
 
     route::get('/barang', [BarangController::class, 'index']);
     route::post('/barang/store', [BarangController::class, 'store']);
+    route::post('/barang/delete', [BarangController::class, 'delete']);
     route::get('/barang/halpdf', [BarangController::class, 'halpdf']);
     route::post('/barang/halpdf/cetakpdf', [BarangController::class, 'BarangcetakPDF']);
     route::get('/barang/detail/{id}', [BarangController::class, 'detail']);

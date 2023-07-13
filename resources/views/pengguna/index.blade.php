@@ -52,9 +52,6 @@
     <div class="modal-content">
       <div class="modal-header">
         <h4 class="modal-title">Tambah Pengguna</h4>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
       </div>
       <div class="modal-body">
         <form action="POST" id="PenggunaForm" name="PenggunaForm" class="form-horizontal">
@@ -115,9 +112,6 @@
     <div class="modal-content">
       <div class="modal-header">
         <h4 class="modal-title">Edit Pengguna</h4>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
       </div>
       <div class="modal-body">
         <form action="POST" id="UpdatePenggunaForm" name="PenggunaForm" class="form-horizontal">

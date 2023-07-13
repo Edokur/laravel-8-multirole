@@ -72,5 +72,45 @@ $(function() {
         }
     });
 
+    $('body').on('click', '.deleteBarang', function(){
+
+            var id = {
+                'id': $(this).data("id")
+            }
+
+            Swal.fire({
+                icon: 'warning',
+                title: 'Mohon Perhatian !',
+                text: 'Data yang dihapus tidak bisa dipulihkan kembali, apakah anda yakin ?',
+                showCancelButton: true,
+                confirmButtonText: 'Ya, hapus !',
+                confirmButtonColor: '#007AFF',
+                cancelButtonText: 'Tidak',
+                cancelButtonColor: '#d33',
+                reverseButtons: true,
+            }).then(function(isvalid) {
+                if (isvalid.value) {
+                    $.ajax({
+                        type: 'ajax',
+                        method: 'POST',
+                        data: id,
+                        url: '/barang/delete',
+                        success: function(response) {
+                            if (response.success) {
+                                Swal.fire('Proses Berhasil!', response.message, 'success').then(function() {
+                                    barang_table.draw();
+                                })
+
+                            } else {
+                                Swal.fire('Proses Gagal!', response.message, 'error');
+                            }
+                        },
+                        error: function(xmlresponse) {
+                            console.log(xmlresponse);
+                        }
+                    })
+                }
+            })
+    });
 });
 

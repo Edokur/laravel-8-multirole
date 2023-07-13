@@ -25,6 +25,7 @@ class CreateBarangDetailTable extends Migration
             $table->string('umurekonomis_barang');
             $table->string('spesifikasi');
             $table->enum('is_active', ['1', '0'])->default('0');
+            $table->string('img_barang')->nullable();
             $table->string('qr_code')->nullable();
             $table->timestamps();
 

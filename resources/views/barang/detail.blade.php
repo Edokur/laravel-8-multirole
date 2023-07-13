@@ -48,119 +48,142 @@
 </section>
 
 {{-- modal tambah barang v2  --}}    
-{{-- @foreach ($barang as $item) --}}
 <div class="modal fade" id="addModalBarangDetailV2" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
             <h4 class="modal-title">Tambah Barang</h4>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
             </div>
+            <form method="POST" enctype="multipart/form-data" id="BarangDetailForm" name="BarangDetailForm" class="form-horizontal BarangDetailForm">
+                @csrf
             <div class="modal-body">
-            <form action="POST" id="BarangDetailForm" name="BarangDetailForm" class="form-horizontal BarangDetailForm">
                 <input type="hidden" name="barang_id" id="barang_id" value="{{ $id_barang }}">
+                <input type="hidden" name="nama_barang" id="nama_barang" value="{{ $nama_barang }}">
                 <div class="form-group">
-                <label for="Name">Nama Barang <span class="text-danger">*</span></label>
-                <input type="text" class="form-control" name="nama_barang" id="nama_barang" placeholder="Enter Nama" disabled value="{{ $nama_barang }}">
+                    <label for="Name">Nama Barang <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" name="nama_barang" placeholder="Enter Nama" disabled value="{{ $nama_barang }}">
                 </div>
                 <div class="form-group">
-                <label for="Name">Brand <span class="text-danger">*</span></label>
-                <input type="text" class="form-control" name="brand_barang" id="brand_barang" placeholder="Enter Tanggal">
+                    <label for="Name">Brand <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" name="brand_barang" id="brand_barang" placeholder="Enter Tanggal">
                 </div>
                 <div class="form-group">
-                <label for="Name">Harga <span class="text-danger">*</span></label>
-                <input type="number" class="form-control" name="harga_barang" id="harga_barang" placeholder="Enter Harga">
+                    <label for="Name">Harga <span class="text-danger">*</span></label>
+                    <input type="number" class="form-control" name="harga_barang" id="harga_barang" placeholder="Enter Harga">
                 </div>
                 <div class="form-group">
-                <label for="Name">Tanggal Pembelian <span class="text-danger">*</span></label>
-                <input type="text" class="form-control datepicker" name="tanggal_pembelian" id="tanggal_pembelian" placeholder="Enter Tanggal Pembelian">
+                    <label for="Name">Tanggal Pembelian <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control datepicker" name="tanggal_pembelian" id="tanggal_pembelian" placeholder="Enter Tanggal Pembelian">
                 </div>
                 <div class="form-group">
-                <label for="Name">Jumlah Barang <span class="text-danger">*</span></label>
-                <input type="text" class="form-control" name="jumlah_barang" id="jumlah_barang" placeholder="Enter Jumlah Barang">
+                    <label for="Name">Jumlah Barang <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" name="jumlah_barang" id="jumlah_barang" placeholder="Enter Jumlah Barang">
                 </div>
                 <div class="form-group">
-                <label for="Name">Kondisi <span class="text-danger">*</span></label>
-                <input type="text" class="form-control" name="kondisi_barang" id="kondisi_barang" placeholder="Enter Kondisi Barang">
+                    <label for="Name">Kondisi <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" name="kondisi_barang" id="kondisi_barang" placeholder="Enter Kondisi Barang">
                 </div>
                 <div class="form-group">
-                <label for="Name">Umur Ekonomis <span class="text-danger">*</span></label>
-                <input type="number" class="form-control" name="umurekonomis_barang" id="umurekonomis_barang" placeholder="Enter Umur Ekonomis">
+                    <label for="Name">Umur Ekonomis (thn)<span class="text-danger">*</span></label>
+                    <input type="number" class="form-control" name="umurekonomis_barang" id="umurekonomis_barang" placeholder="Enter Umur Ekonomis">
                 </div>
                 <div class="form-group">
-                <label for="Name">Spesifikasi <span class="text-danger">*</span></label>
-                <input type="text" class="form-control" name="spesifikasi_barang" id="spesifikasi_barang" placeholder="Enter Spesifikasi">
+                    <label for="Name">Spesifikasi <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" name="spesifikasi_barang" id="spesifikasi_barang" placeholder="Enter Spesifikasi">
                 </div>
-            </form>
+                <div class="form-group">
+                    <label for="Name">Foto Barang <span class="text-danger">*</span></label>
+                    <div class="input-group">
+                        <div class="custom-file">
+                            <input type="file" class="custom-file-input" id="image_barang" name="image_barang" required>
+                            <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <img id="preview-image-before-upload" src="https://via.placeholder.com/500" alt="preview image" width="80%" height="80%">
+                </div>
             </div>
             <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="button" type="submit" id="saveBtnBarangDetail" value="create" class="btn btn-primary">Save changes</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="submit" id="saveBtnBarangDetail" value="create" class="btn btn-primary">Save changes</button>
             </div>
+            </form>
         </div>
     </div>
 </div>
-{{-- @endforeach --}}
 
 {{-- modal edit barang v2 --}}
-{{-- @foreach ($barang as $item) --}}
 <div class="modal fade" id="editModalBarangDetailV2" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
             <h4 class="modal-title">Edit Barang</h4>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
             </div>
             <div class="modal-body">
-            <form action="POST" id="editBarangDetailForm" name="editBarangDetailForm" class="form-horizontal">
+            <form method="POST" enctype="multipart/form-data" id="editBarangDetailForm" name="editBarangDetailForm" class="form-horizontal">
+                @csrf
                 <input type="hidden" name="barang_id" id="Ebarang_id" value="">
                 <input type="hidden" name="kode_barang" id="Ekode_barang" value="">
                 <div class="form-group">
                 <label for="Name">Nama Barang <span class="text-danger">*</span></label>
-                <input type="text" class="form-control" name="nama_barang" id="Enama_barang" placeholder="Enter Nama" disabled value="">
+                <input type="text" class="form-control" name="Enama_barang" id="Enama_barang" placeholder="Enter Nama" disabled value="">
                 </div>
                 <div class="form-group">
                 <label for="Name">Brand <span class="text-danger">*</span></label>
-                <input type="text" class="form-control" name="brand_barang" id="Ebrand_barang" placeholder="Enter Tanggal"  value="">
+                <input type="text" class="form-control" name="Ebrand_barang" id="Ebrand_barang" placeholder="Enter Tanggal"  value="">
                 </div>
                 <div class="form-group">
                 <label for="Name">Harga <span class="text-danger">*</span></label>
-                <input type="text" class="form-control" name="harga_barang" id="Eharga_barang" placeholder="Enter Harga"  value="">
+                <input type="text" class="form-control" name="Eharga_barang" id="Eharga_barang" placeholder="Enter Harga"  value="">
                 </div>
                 <div class="form-group">
                 <label for="Name">Tanggal Pembelian <span class="text-danger">*</span></label>
-                <input type="text" class="form-control datepicker" name="tanggal_pembelian" id="Etanggal_pembelian" placeholder="Enter Tanggal Pembelian"  value="">
+                <input type="text" class="form-control datepicker" name="Etanggal_pembelian" id="Etanggal_pembelian" placeholder="Enter Tanggal Pembelian"  value="">
                 </div>
                 <div class="form-group">
                 <label for="Name">Jumlah Barang <span class="text-danger">*</span></label>
-                <input type="text" class="form-control" name="jumlah_barang" id="Ejumlah_barang" placeholder="Enter Jumlah Barang"  value="">
+                <input type="text" class="form-control" name="Ejumlah_barang" id="Ejumlah_barang" placeholder="Enter Jumlah Barang"  value="">
                 </div>
                 <div class="form-group">
                 <label for="Name">Kondisi <span class="text-danger">*</span></label>
-                <input type="text" class="form-control" name="kondisi_barang" id="Ekondisi_barang" placeholder="Enter Kondisi Barang"  value="">
+                <input type="text" class="form-control" name="Ekondisi_barang" id="Ekondisi_barang" placeholder="Enter Kondisi Barang"  value="">
                 </div>
                 <div class="form-group">
-                <label for="Name">Umur Ekonomis <span class="text-danger">*</span></label>
-                <input type="number" class="form-control" name="umurekonomis_barang" id="Eumurekonomis_barang" placeholder="Enter Umur Ekonomis"  value="">
+                <label for="Name">Umur Ekonomis (thn)<span class="text-danger">*</span></label>
+                <input type="number" class="form-control" name="Eumurekonomis_barang" id="Eumurekonomis_barang" placeholder="Enter Umur Ekonomis"  value="">
                 </div>
                 <div class="form-group">
-                <label for="Name">Spesifikasi <span class="text-danger">*</span></label>
-                <input type="text" class="form-control" name="spesifikasi_barang" id="Espesifikasi_barang" placeholder="Enter Spesifikasi"  value="">
+                    <label for="Name">Spesifikasi <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" name="Espesifikasi_barang" id="Espesifikasi_barang" placeholder="Enter Spesifikasi"  value="">
                 </div>
-            </form>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="img_change">
+                    <label class="form-check-label" for="defaultCheck1">
+                    apakah anda ingin mengganti foto barang?
+                    </label>
+                </div>
+                <div class="form-group d-none" id="output_foto">
+                    <label for="Name">Foto Barang <span class="text-danger">*</span></label>
+                    <div class="input-group">
+                        <div class="custom-file">
+                            <input type="file" class="custom-file-input" id="Eimage_barang" name="Eimage_barang" >
+                            <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group d-none" id="preview_output_foto">
+                    <img id="Epreview-image-before-upload" src="https://via.placeholder.com/500" alt="preview image" width="80%" height="80%">
+                </div>
             </div>
             <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="button" type="submit" id="saveeditBtnBarangDetail" value="edit" class="btn btn-primary">Save changes</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="submit" id="saveeditBtnBarangDetail" value="edit" class="btn btn-primary">Save changes</button>
             </div>
+        </form>
         </div>
     </div>
 </div>
-{{-- @endforeach --}}
 
 {{-- modal detail barang v2 --}}
 <div class="modal fade" id="detailModalBarangDetailV2" aria-hidden="true">
@@ -168,9 +191,6 @@
         <div class="modal-content">
             <div class="modal-header">
             <h4 class="modal-title">Detail Barang</h4>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
             </div>
             <div class="modal-body">
             <form action="POST" id="detailBarangDetailForm" name="detailBarangDetailForm" class="form-horizontal">
@@ -183,28 +203,33 @@
                 <input type="text" class="form-control" name="brand_barang" id="Dbrand_barang" placeholder="Enter Tanggal" disabled value="">
                 </div>
                 <div class="form-group">
-                <label for="Name">Harga <span class="text-danger">*</span></label>
-                <input type="text" class="form-control" name="harga_barang" id="Dharga_barang" placeholder="Enter Harga" disabled value="">
+                    <label for="Name">Harga <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" name="harga_barang" id="Dharga_barang" placeholder="Enter Harga" disabled value="">
                 </div>
                 <div class="form-group">
-                <label for="Name">Tanggal Pembelian <span class="text-danger">*</span></label>
-                <input type="text" class="form-control datepicker" name="tanggal_pembelian" id="Dtanggal_pembelian" placeholder="Enter Tanggal Pembelian" disabled value="">
+                    <label for="Name">Tanggal Pembelian <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control datepicker" name="tanggal_pembelian" id="Dtanggal_pembelian" placeholder="Enter Tanggal Pembelian" disabled value="">
                 </div>
                 <div class="form-group">
-                <label for="Name">Jumlah Barang <span class="text-danger">*</span></label>
-                <input type="text" class="form-control" name="jumlah_barang" id="Djumlah_barang" placeholder="Enter Jumlah Barang" disabled value="">
+                    <label for="Name">Jumlah Barang <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" name="jumlah_barang" id="Djumlah_barang" placeholder="Enter Jumlah Barang" disabled value="">
                 </div>
                 <div class="form-group">
-                <label for="Name">Kondisi <span class="text-danger">*</span></label>
-                <input type="text" class="form-control" name="kondisi_barang" id="Dkondisi_barang" placeholder="Enter Kondisi Barang" disabled value="">
+                    <label for="Name">Kondisi <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" name="kondisi_barang" id="Dkondisi_barang" placeholder="Enter Kondisi Barang" disabled value="">
                 </div>
                 <div class="form-group">
-                <label for="Name">Umur Ekonomis <span class="text-danger">*</span></label>
-                <input type="number" class="form-control" name="umurekonomis_barang" id="Dumurekonomis_barang" placeholder="Enter Umur Ekonomis" disabled value="">
+                    <label for="Name">Umur Ekonomis (thn)<span class="text-danger">*</span></label>
+                    <input type="number" class="form-control" name="umurekonomis_barang" id="Dumurekonomis_barang" placeholder="Enter Umur Ekonomis" disabled value="">
                 </div>
                 <div class="form-group">
-                <label for="Name">Spesifikasi <span class="text-danger">*</span></label>
-                <input type="text" class="form-control" name="spesifikasi_barang" id="Dspesifikasi_barang" placeholder="Enter Spesifikasi" disabled value="">
+                    <label for="Name">Spesifikasi <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" name="spesifikasi_barang" id="Dspesifikasi_barang" placeholder="Enter Spesifikasi" disabled value="">
+                </div>
+                <div class="form-group" id="output_foto">
+                    <label for="Name">Foto Barang <span class="text-danger">*</span></label>
+                    <div class="input-group" id="Dimg_barang">
+                    </div>
                 </div>
             </form>
             </div>
@@ -221,16 +246,12 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title">Detail Barang</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
             </div>
             <div class="modal-body">
+                <p class="text-muted">Silahkan Refresh halaman untuk melakukan download QrCode</p>
             <form action="POST" id="QrcodeBarangDetailForm" name="QrcodeBarangDetailForm" class="form-horizontal">
                 <div class="form-group text-center mt-3">    
                     <img src="data:image/png;base64, {!! base64_encode(QrCode::errorCorrection('H')->format('png')->size(300)->generate($item->kode_barang)) !!} ">
-                    {{-- <img src="storage/app/{{ $item->qr_code}}"> --}}
-                    {{-- {{ (new \App\Helpers\Helpers)->Create_Qrcode($item->kode_barang) }} --}}
                 </div>
                 
                 <input type="hidden" name="Qkode_barang" class="Qkode_barang" value="{{ $item->kode_barang }}">
@@ -239,7 +260,6 @@
             <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             <a href="{{ asset('/') }}assets/img/qrcode/{{ $item->qr_code }}" class="btn btn-primary" download>Download</a>
-            {{-- <button type="submit" class="btn btn-primary saveBtnQrcode" id="saveBtnQrcode">Download</button> --}}
             </div>
         </div>
     </div>
@@ -295,6 +315,7 @@
                 dataType: 'json',
                 success: function(response) {
                     console.log(response);
+                    // console.log('{{ asset('/') }}assets/img/logo-beecon.png');
                     $('#Dnama_barang').val(response[0].nama_barang);
                     $('#Dbrand_barang').val(response[0].brand_barang);
                     $('#Dharga_barang').val(response[0].harga_barang);
@@ -303,16 +324,24 @@
                     $('#Dkondisi_barang').val(response[0].kondisi_barang);
                     $('#Dumurekonomis_barang').val(response[0].umurekonomis_barang);
                     $('#Dspesifikasi_barang').val(response[0].spesifikasi);
+                    $('#Dimg_barang').html('<img src="{!! url('assets/img_barang/') !!}/'+response[0].img_barang+'" width="80%" height="80%"/>');
                     $('#detailModalBarangDetailV2').modal('show');
                 },
                 error: function(xmlresponse) {
                     console.log(xmlresponse);
                 }
             });
-        })
+        });
 
-        $("#saveBtnBarangDetail").click(function(e){
+        $('#image_barang').change(function(){
+            let reader = new FileReader();
+            reader.onload = (e) => { 
+            $('#preview-image-before-upload').attr('src', e.target.result); 
+            }
+            reader.readAsDataURL(this.files[0]);    
+        });
 
+        $('#BarangDetailForm').submit(function(e) {
             var barang_id = $("#barang_id").val();
             var nama_barang = $("#nama_barang").val();
             var brand_barang = $("#brand_barang").val();
@@ -322,45 +351,38 @@
             var kondisi_barang = $("#kondisi_barang").val();
             var umurekonomis_barang = $("#umurekonomis_barang").val();
             var spesifikasi_barang = $("#spesifikasi_barang").val();
+            var img_barang = $("#image_barang").val();
 
-            const isFilled = (barang_id != "" && nama_barang != "" && brand_barang != "" && harga_barang != "" && tanggal_pembelian != "" && jumlah_barang != "" && kondisi_barang != "" && umurekonomis_barang != "" && spesifikasi_barang != "");
-
-            e.preventDefault();
-            var data = {
-                'barang_id': $("#barang_id").val(),
-                'nama_barang': $("#nama_barang").val(),
-                'brand_barang': $("#brand_barang").val(),
-                'harga_barang': $("#harga_barang").val(),
-                'tanggal_pembelian': $("#tanggal_pembelian").val(),
-                'jumlah_barang': $("#jumlah_barang").val(),
-                'kondisi_barang': $("#kondisi_barang").val(),
-                'umurekonomis_barang': $("#umurekonomis_barang").val(),
-                'spesifikasi': $("#spesifikasi_barang").val(),
-            };
+            const isFilled = (barang_id != "" && nama_barang != "" && brand_barang != "" && harga_barang != "" && tanggal_pembelian != "" && jumlah_barang != "" && kondisi_barang != "" && umurekonomis_barang != "" && spesifikasi_barang != "" && img_barang != "");
+            var form = $('#BarangDetailForm')[0];
+            var data = new FormData(form);
 
             if (isFilled) {
+                e.preventDefault();
                 $.ajax({
+                    type: 'ajax',
+                    method: 'POST',
+                    url: '{!! url()->current() !!}/store',
                     data: data,
-                    url: "{!! url()->current() !!}/store",
-                    method: "POST",
-                    type: 'json',
-                    success:function(response){
-                        console.log(response)
+                    processData: false,
+                    contentType: false,
+                    cache: false,
+                    dataType: 'json',
+                    success: function(response) {
+                        console.log(response);
                         if (response.success) {
-                            Swal.fire('Proses Berhasil!', response.message, 'success').then(function() {
-                                barangDetail_table.draw();
-                                location.reload();
+                            Swal.fire('Proses berhasil!', response.message, 'success').then(function() {
+                                window.location.reload();
                             })
                         } else {
-                            Swal.fire('Proses Gagal!', response.message, 'error');
+                            Swal.fire('Proses berhasil!', response.message, 'success');
                         }
-                        
                     },
                     error: function(xmlresponse) {
                         console.log(xmlresponse);
-                    }
+                    },
                 });
-            } else {
+            }else {
                 Swal.fire({
                     confirmButtonColor: '#3ab50d',
                     icon: 'error',
@@ -370,8 +392,7 @@
             }
         });
 
-        $("#saveeditBtnBarangDetail").click(function(e){
-
+        $('#editBarangDetailForm').submit(function(e) {
             var barang_id = $("#Ebarang_id").val();
             var kode_barang = $("#Ekode_barang").val();
             var nama_barang = $("#Enama_barang").val();
@@ -384,44 +405,34 @@
             var spesifikasi_barang = $("#Espesifikasi_barang").val();
 
             const isFilled = (barang_id != "" && nama_barang != "" && brand_barang != "" && harga_barang != "" && tanggal_pembelian != "" && jumlah_barang != "" && kondisi_barang != "" && umurekonomis_barang != "" && spesifikasi_barang != "");
-
-            e.preventDefault();
-            var data = {
-                'barang_id': $("#Ebarang_id").val(),
-                'kode_barang': $("#Ekode_barang").val(),
-                'nama_barang': $("#Enama_barang").val(),
-                'brand_barang': $("#Ebrand_barang").val(),
-                'harga_barang': $("#Eharga_barang").val(),
-                'tanggal_pembelian': $("#Etanggal_pembelian").val(),
-                'jumlah_barang': $("#Ejumlah_barang").val(),
-                'kondisi_barang': $("#Ekondisi_barang").val(),
-                'umurekonomis_barang': $("#Eumurekonomis_barang").val(),
-                'spesifikasi': $("#Espesifikasi_barang").val(),
-            };
-
+            var form_edit = $('#editBarangDetailForm')[0];
+            var data_edit = new FormData(form_edit);
             if (isFilled) {
+                e.preventDefault();
                 $.ajax({
-                    data: data,
-                    url: "{!! url()->current() !!}/update",
-                    method: "POST",
-                    type: 'json',
-                    success:function(response){
-                        console.log(response)
+                    type: 'ajax',
+                    method: 'POST',
+                    url: '{!! url()->current() !!}/update',
+                    data: data_edit,
+                    processData: false,
+                    contentType: false,
+                    cache: false,
+                    dataType: 'json',
+                    success: function(response) {
+                        console.log(response);
                         if (response.success) {
-                            Swal.fire('Proses Berhasil!', response.message, 'success').then(function() {
-                                barangDetail_table.draw();
-                                location.reload();
+                            Swal.fire('Proses berhasil!', response.message, 'success').then(function() {
+                                window.location.reload();
                             })
                         } else {
-                            Swal.fire('Proses Gagal!', response.message, 'error');
+                            Swal.fire('Proses berhasil!', response.message, 'success');
                         }
-                        
                     },
                     error: function(xmlresponse) {
                         console.log(xmlresponse);
-                    }
+                    },
                 });
-            } else {
+            }else {
                 Swal.fire({
                     confirmButtonColor: '#3ab50d',
                     icon: 'error',
@@ -429,48 +440,7 @@
                     text: 'Isian bertanda bintang wajib diisi',
                 })
             }
-            });
-
-        
-            $('body').on('click', '.deletedetailBarang', function(){
-            var kode_barang = {
-                'kode_barang': $(this).data("kode_barang")
-            };
-
-            Swal.fire({
-                icon: 'warning',
-                title: 'Mohon Perhatian !',
-                text: 'Data yang dihapus tidak bisa dipulihkan kembali, apakah anda yakin ?',
-                showCancelButton: true,
-                confirmButtonText: 'Ya, hapus !',
-                confirmButtonColor: '#007AFF',
-                cancelButtonText: 'Tidak',
-                cancelButtonColor: '#d33',
-                reverseButtons: true,
-            }).then(function(isvalid) {
-                if (isvalid.value) {
-                    $.ajax({
-                        type: 'ajax',
-                        method: 'POST',
-                        data: kode_barang,
-                        url: '{!! url()->current() !!}/delete_detailBarang',
-                        success: function(response) {
-                            if (response.success) {
-                                Swal.fire('Proses Berhasil!', response.message, 'success').then(function() {
-                                    barangDetail_table.draw();
-                                })
-
-                            } else {
-                                Swal.fire('Proses Gagal!', response.message, 'error');
-                            }
-                        },
-                        error: function(xmlresponse) {
-                            console.log(xmlresponse);
-                        }
-                    })
-                }
-            })
-        })
+        });
 
         $('body').on('click', '.dataQrcode', function(){
             var data = {
@@ -527,8 +497,64 @@
             });
         });
 
-        
+        $('body').on('click', '.deletedetailBarang', function(){
+            var kode_barang = {
+                'kode_barang': $(this).data("kode_barang")
+            }
 
+            Swal.fire({
+                icon: 'warning',
+                title: 'Mohon Perhatian !',
+                text: 'Data yang dihapus tidak bisa dipulihkan kembali, apakah anda yakin ?',
+                showCancelButton: true,
+                confirmButtonText: 'Ya, hapus !',
+                confirmButtonColor: '#007AFF',
+                cancelButtonText: 'Tidak',
+                cancelButtonColor: '#d33',
+                reverseButtons: true,
+            }).then(function(isvalid) {
+                if (isvalid.value) {
+                    $.ajax({
+                        type: 'ajax',
+                        method: 'POST',
+                        data: kode_barang,
+                        url: '{!! url()->current() !!}/delete_detailBarang',
+                        success: function(response) {
+                            if (response.success) {
+                                Swal.fire('Proses Berhasil!', response.message, 'success').then(function() {
+                                    barangDetail_table.draw();
+                                })
+
+                            } else {
+                                Swal.fire('Proses Gagal!', response.message, 'error');
+                            }
+                        },
+                        error: function(xmlresponse) {
+                            console.log(xmlresponse);
+                        }
+                    })
+                }
+            })
+        });
+
+        $('#Eimage_barang').change(function(){
+            let reader = new FileReader();
+            reader.onload = (e) => { 
+            $('#Epreview-image-before-upload').attr('src', e.target.result); 
+            }
+            reader.readAsDataURL(this.files[0]);    
+        });
+
+        $("#img_change").click(function() {
+            var check = $("#img_change").is(':checked');
+            if (check == true) {
+                $('#output_foto').removeClass('d-none');
+                $('#preview_output_foto').removeClass('d-none');
+            }else{
+                $('#output_foto').addClass('d-none');
+                $('#preview_output_foto').addClass('d-none');
+            }
+        });
     })
 
     

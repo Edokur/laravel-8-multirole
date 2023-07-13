@@ -29,7 +29,7 @@ class BarangController extends Controller
      */
     public function index(Request $request)
     {
-        $barang = Barang::all();
+        $barang = Barang::where('is_active', 1)->get();
         if ($request->ajax()) {
             $allData = DataTables::of($barang)
                 ->addIndexColumn()
@@ -62,13 +62,30 @@ class BarangController extends Controller
         return json_encode(count($jumlah_barang));
     }
 
+    public function delete(Request $request)
+    {
+        $output = DB::table('barang')
+            ->where('id', $request->id)
+            ->update([
+                'is_active' => '0',
+            ]);
+        if ($output == true) {
+            $response['success'] = true;
+            $response['message'] = 'Anda Berhasil Menghapus Data Barang';
+        } else {
+            $response['success'] = false;
+            $response['message'] = 'Anda Gagal Menghapus Data Barang';
+        }
+
+        return $response;
+    }
+
     public function halpdf()
     {
         $barang = DB::table('barang_detail as bd')
             ->select('*')
             ->leftJoin('barang as b', 'bd.barang_id', '=', 'b.id')
             ->get();
-        // dd($barang);
         return view('barang.halpdf', compact('barang'), [
             'title' => 'Data Barang'
         ]);
@@ -76,23 +93,11 @@ class BarangController extends Controller
 
     public static function BarangcetakPDF(Request $request)
     {
-        // dd("tanggal awal :" . $request->tanggal_awal, "tanggal akhir :" . $request->tanggal_akhir);
-        // $cetak = Barang::with('Barang_Detail')->whereBetween('tanggal_registrasi', [$request->tanggal_awal, $request->tanggal_akhir]);
         $cetak = DB::table('barang_detail as bd')
             ->select('*')
             ->leftJoin('barang as b', 'bd.barang_id', '=', 'b.id')
             ->whereBetween('tanggal_registrasi', [$request->tanggal_awal, $request->tanggal_akhir])
             ->get();
-        // dd($cetak);
-        // $pdf = PDF::loadview('barang.cetak_barang_pertanggal', compact('cetak'));
-        // $pdf->setPaper('A4', 'potrait');
-        // return $pdf->save('laporan-barang-pdf');
-        // dd($cetak-);
-        // if ($cetak->isEmpty()) {
-        //     dd($cetak);
-        // } else {
-        //     dd("ada data");
-        // }
 
         if ($cetak->isNotEmpty()) {
             $pdf = App::make('dompdf.wrapper');
@@ -113,17 +118,11 @@ class BarangController extends Controller
             'pendistribusian_barang' => 'required',
         ]);
 
-        // $arr = explode(" ", $request->nama_barang);
-        // $singkatan_nama = "";
-        // foreach ($arr as $kata) {
-        //     $singkatan_nama .= substr($kata, 0, 1);
-        // }
-        // dd($singkatan_nama);
-
         $barang = new Barang;
         $barang->nama_barang = $request->nama_barang;
         $barang->tanggal_registrasi = $request->registrasi_barang;
         $barang->pendistribusian = $request->pendistribusian_barang;
+        $barang->is_active = 1;
         $output = $barang->save();
 
         if ($output == true) {
@@ -175,17 +174,41 @@ class BarangController extends Controller
     public function detailupdate(Request $request)
     {
         $kode_barang = $request->kode_barang;
-        $output = DB::table('barang_detail')
-            ->where('kode_barang', $kode_barang)
-            ->update([
-                'brand_barang' => $request->brand_barang,
-                'harga_barang' => $request->harga_barang,
-                'tanggal_pembelian' => $request->tanggal_pembelian,
-                'jumlah_barang' => $request->jumlah_barang,
-                'kondisi_barang' => $request->kondisi_barang,
-                'umurekonomis_barang' => $request->umurekonomis_barang,
-                'spesifikasi' => $request->spesifikasi,
-            ]);
+
+        if ($request->hasFile('Eimage_barang') && $request->Eimage_barang != '') {
+            $image = DB::table('barang_detail')->where('kode_barang', $kode_barang)->first();
+            $file_path = public_path() . '\assets\img_barang\\' . $image->img_barang;
+            if ($file_path != null) {
+                unlink($file_path);
+            }
+            $filename = $request->file('Eimage_barang')->getClientOriginalName();
+            $request->file('Eimage_barang')->move(public_path('assets\img_barang'), $filename);
+
+            $output = DB::table('barang_detail')
+                ->where('kode_barang', $kode_barang)
+                ->update([
+                    'brand_barang' => $request->Ebrand_barang,
+                    'harga_barang' => $request->Eharga_barang,
+                    'tanggal_pembelian' => $request->Etanggal_pembelian,
+                    'jumlah_barang' => $request->Ejumlah_barang,
+                    'kondisi_barang' => $request->Ekondisi_barang,
+                    'umurekonomis_barang' => $request->Eumurekonomis_barang,
+                    'spesifikasi' => $request->Espesifikasi_barang,
+                    'img_barang' => $filename
+                ]);
+        } else {
+            $output = DB::table('barang_detail')
+                ->where('kode_barang', $kode_barang)
+                ->update([
+                    'brand_barang' => $request->Ebrand_barang,
+                    'harga_barang' => $request->Eharga_barang,
+                    'tanggal_pembelian' => $request->Etanggal_pembelian,
+                    'jumlah_barang' => $request->Ejumlah_barang,
+                    'kondisi_barang' => $request->Ekondisi_barang,
+                    'umurekonomis_barang' => $request->Eumurekonomis_barang,
+                    'spesifikasi' => $request->Espesifikasi_barang,
+                ]);
+        }
 
         if ($output == true) {
             $response['success'] = true;
@@ -213,8 +236,6 @@ class BarangController extends Controller
                 ->size(580)->color(0, 0, 0)->backgroundColor(255, 255, 255)->errorCorrection('H')->margin(2)
                 ->generate(url($kode_barang), $path);
             $output_file = $kode_barang . '.png';
-            // $output_file = 'img-' . $kode_barang . '.png';
-            // $data = Storage::disk('public')->put($output_file, $image);
 
             $output = DB::table('barang_detail')
                 ->where('kode_barang', $kode_barang)
@@ -222,39 +243,15 @@ class BarangController extends Controller
                     'qr_code' => $output_file,
                 ]);
         }
-        // else {
-        //     if (Barang_Detail::where('qr_code', $kode_barang)->exists()) {
-        //         if ($request->kode_barang != '') {
-        //             $image = Barang_Detail::where('qr_code', $kode_barang)->first();
-        //             dd($image);
-        //             $file_path = public_path('assets/img/qrcode/' . $kode_barang . '.png');
-        //             // $data_path = round(microtime(true) * 1000) . '-' . str_replace(' ', '-', $file_path);
-        //             if ($file_path != null) {
-        //                 unlink($file_path);
-        //             }
-        //             // $filename = round(microtime(true) * 1000) . '-' . str_replace(' ', '-', $request->file('file_photo')->getClientOriginalName());
-        //             $data = QrCode::format('png')
-        //                 ->merge('\public\assets\img\logo-beecon.png', .3)
-        //                 ->size(500)->errorCorrection('H')
-        //                 ->generate($kode_barang, $file_path);
-        //             $output_file = $kode_barang . '.png';
-        //             // $output_file = 'img-' . $kode_barang . '.png';
-        //             // $data = Storage::disk('public')->put($output_file, $image);
-
-        //             $output = DB::table('barang_detail')
-        //                 ->where('kode_barang', $kode_barang)
-        //                 ->update([
-        //                     'qr_code' => $output_file,
-        //                 ]);
-        //         }
-        //     }
-        // }
-
         return $barang;
     }
 
     public function detailstore(Request $request)
     {
+        $request->validate([
+            'image_barang' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+        ]);
+
         $arr = explode(" ", $request->nama_barang);
         $singkatan_nama_barang = "";
         foreach ($arr as $kata) {
@@ -277,6 +274,10 @@ class BarangController extends Controller
         }
         $kodeBarang++;
 
+        if ($request->hasFile('image_barang')) {
+            $filename = $request->file('image_barang')->getClientOriginalName();
+            $request->file('image_barang')->move(public_path('assets\img_barang'), $filename);
+        }
         $barang = new Barang_Detail;
         $barang->kode_barang = $kodeBarang;
         $barang->barang_id = $request->barang_id;
@@ -286,7 +287,8 @@ class BarangController extends Controller
         $barang->tanggal_pembelian = $request->tanggal_pembelian;
         $barang->kondisi_barang = $request->kondisi_barang;
         $barang->umurekonomis_barang = $request->umurekonomis_barang;
-        $barang->spesifikasi = $request->spesifikasi;
+        $barang->spesifikasi = $request->spesifikasi_barang;
+        $barang->img_barang = $filename;
         $output = $barang->save();
 
         if ($output == true) {
@@ -302,6 +304,20 @@ class BarangController extends Controller
 
     public function delete_detailBarang(Request $request)
     {
+        $image = DB::table('barang_detail')->where('kode_barang', $request->kode_barang)->first();
+        if ($image->img_barang != null) {
+            $file_path_img = public_path() . '\assets\img_barang\\' . $image->img_barang;
+            if ($file_path_img != null) {
+                unlink($file_path_img);
+            }
+        }
+        if ($image->qr_code != null) {
+            $file_path_qrcode = public_path() . '\assets\img\qrcode\\' . $image->qr_code;
+            if ($file_path_qrcode != null) {
+                unlink($file_path_qrcode);
+            }
+        }
+
         $deleted = DB::table('barang_detail')->where('kode_barang',  $request->kode_barang)->delete();
         if ($deleted == true) {
             $response['success'] = true;
@@ -322,15 +338,9 @@ class BarangController extends Controller
             ->where('kode_barang', $request->qrcode)
             ->get();
 
-        // dd($data[0]->qr_code);
         $ha = public_path() . '\assets\img\qrcode\\' . $request->qrcode . '.png';
 
-        // dd($ha);
-        // $filepath = Storage::disk('public')->get($data[0]->qr_code);
         return Response::download($ha);
-        // $images = File::allFiles(public_path('\assets\img\qrcode'));
-        // print_r($images);
-        // return response()->download($ha);
     }
 
     // Halaman pegawai 
