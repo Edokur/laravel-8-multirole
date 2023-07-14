@@ -57,7 +57,11 @@ Route::group(['middleware' => ['auth', 'cekrole:Admin']], function () {
     Route::get('/pengguna/detail/{id}', [PenggunaController::class, 'detail']);
 
     route::get('/perhitungan', [PerhitunganController::class, 'index']);
+    route::post('/perhitungan/store', [PerhitunganController::class, 'store']);
+    route::post('/perhitungan/destroy/{id}', [PerhitunganController::class, 'destroy']);
+    route::post('/perhitungan/data_barang', [PerhitunganController::class, 'data_barang']);
     route::get('/perhitungan/halpdf', [PerhitunganController::class, 'halpdf']);
+    route::post('/perhitungan/halpdf/cetakpdf', [PerhitunganController::class, 'PerhitungancetakPDF']);
 
     route::get('/peminjaman', [PeminjamanController::class, 'index']);
     route::get('/keranjang', [KeranjangController::class, 'index']);
@@ -74,8 +78,6 @@ Route::group(['middleware' => ['auth', 'cekrole:Admin']], function () {
     route::post('/barang/detail/{id}/datadetail', [BarangController::class, 'datadetail']);
     route::post('/barang/detail/{id}/delete_detailBarang', [BarangController::class, 'delete_detailBarang']);
     route::post('/barang/detail/{id}/qrcode', [BarangController::class, 'qrcode']);
-    // route::get('/barang/detail', [Barang_detailController::class, 'index']);
-    // Route::get('/pengguna/json', [PenggunaController::class, 'json']);
     // Route::get('/test', fn () => phpinfo());
 
 });

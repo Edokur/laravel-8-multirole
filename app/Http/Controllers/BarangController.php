@@ -86,6 +86,7 @@ class BarangController extends Controller
             ->select('*')
             ->leftJoin('barang as b', 'bd.barang_id', '=', 'b.id')
             ->get();
+
         return view('barang.halpdf', compact('barang'), [
             'title' => 'Data Barang'
         ]);

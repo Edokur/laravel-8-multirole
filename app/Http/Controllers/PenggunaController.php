@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use DataTables;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Auth\Access\Gate;
@@ -10,6 +9,7 @@ use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use GrahamCampbell\ResultType\Success;
+use Yajra\DataTables\Facades\DataTables;
 
 class PenggunaController extends Controller
 {
@@ -24,19 +24,7 @@ class PenggunaController extends Controller
      */
     public function index(Request $request)
     {
-        // dd(auth()->user());
-        // dd($request);
-        // $this->authorize('read pengguna');
-        // return 'page pengguna';
-
-        // return view('pengguna.index', compact('data'))->with('i', (request()->input('page', 1) - 1) * 5);
-        // dd($data);
-        // return view('pengguna.index', [
-        //     'title' => 'Data Pengguna'
-        // ]);
         $pengguna = User::all();
-        // dd($pengguna[0]->name);
-        // dd(count($pengguna));
         if ($request->ajax()) {
             $allData = DataTables::of($pengguna)
                 ->addIndexColumn()

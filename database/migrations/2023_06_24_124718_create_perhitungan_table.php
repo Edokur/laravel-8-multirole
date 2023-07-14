@@ -17,12 +17,12 @@ class CreatePerhitunganTable extends Migration
             $table->id();
             $table->string('kode_barang')->unique();
             $table->string('nama_barang');
-            $table->dateTime('harga_perolehan');
+            $table->string('harga_perolehan');
             $table->string('tarif_penyusutan');
             $table->string('hasil_perhitungan');
             $table->string('brand_barang');
             $table->string('harga_barang');
-            $table->string('tanggal_perhitungan');
+            $table->date('tanggal_perhitungan');
             $table->string('umurekonomis_barang');
             $table->enum('is_active', ['1', '0'])->default('0');
             $table->timestamps();

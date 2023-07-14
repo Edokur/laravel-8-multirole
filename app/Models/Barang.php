@@ -16,11 +16,6 @@ class Barang extends Model
         'nama_barang', 'tanggal_registrasi', 'pendistribusian',
     ];
 
-    /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
-     */
     protected $hidden = [
         'is_active',
     ];

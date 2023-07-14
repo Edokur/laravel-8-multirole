@@ -15,11 +15,11 @@
     <div class="row mt-sm-4">
         <div class="col-12 col-md-12 col-lg-12">
             <div class="card">
-                <form action="#" method="post">
-                    <div class="card-header">
-                        <h4 class="text-dark">Masukkan Tanggal Rekapan Data</h4>
-                    </div>
-                    <div class="card-body">
+                <div class="card-header">
+                    <h4 class="text-dark">Masukkan Tanggal Rekapan Data</h4>
+                </div>
+                <form action="/barang/cetakpdf" method="post">
+                <div class="card-body">
                     <div class="alert alert-info">
                         <p class="mb-1 col-md-6 col-12">Mohon Pastikan Data Benar!!</p>
                     </div>
@@ -38,7 +38,7 @@
                     </div>
                     <div class="card-footer text-right">
                         <button type="reset" class="btn btn-secondary" style="color: black">Reset</button>
-                        <button class="btn btn-success">Submit</button>
+                        <button type="submit" id="saveBtnCetakPerhitungan" class="btn btn-success">Submit</button>
                     </div>
                 </form> 
             </div>
@@ -48,3 +48,59 @@
 </section>
     
 @endsection
+
+@push('script')
+<script>
+    $(document).ready(function(){
+        $.ajaxSetup({
+            headers:{
+                'X-CSRF-TOKEN':$('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
+        $("#saveBtnCetakPerhitungan").click(function(e){
+
+            var tanggal_awal = $("#tanggal_awal").val();
+            var tanggal_akhir = $("#tanggal_akhir").val();
+
+            const isFilled = (tanggal_awal != "" && tanggal_akhir != "");
+
+            e.preventDefault();
+            var data = {
+                'tanggal_awal': $("#tanggal_awal").val(),
+                'tanggal_akhir': $("#tanggal_akhir").val(),
+            };
+
+            if (isFilled) {
+                $.ajax({
+                    data: data,
+                    url: "{!! url()->current() !!}/cetakpdf",
+                    method: "POST",
+                    type: 'json',
+                    success:function(response){
+                        console.log(response)
+                        if (response.success) {
+                            Swal.fire('Proses Berhasil!', response.message, 'success').then(function() {
+                                // location.reload();
+                            })
+                        } else {
+                            Swal.fire('Proses Gagal!', response.message, 'info');
+                        }
+                        
+                    },
+                    error: function(xmlresponse) {
+                        console.log(xmlresponse);
+                    }
+                });
+            } else {
+                Swal.fire({
+                    confirmButtonColor: '#3ab50d',
+                    icon: 'error',
+                    title: 'Peringatan',
+                    text: 'Isian bertanda bintang wajib diisi',
+                })
+            }
+            });
+    })
+</script>
+@endpush

@@ -96,17 +96,6 @@ $(function() {
                         Swal.fire('Proses Berhasil!', response.message, 'success').then(function() {
                             table.draw();
                             location.reload();
-                            // $("#penggunaForm").trigger("reset");
-                            // $("#penggunaForm")[0].reset();
-                            // reload_table();
-                            // $( '#penggunaForm' ).each(function(){
-                            //     $(this).reset();
-                            // });
-                            // $('#penggunaForm')[0].reset();
-                            // $('#addModalPengguna').each(function() {
-                            //     $(this).modal('hide');
-                            // });
-                            // $('#addModalPengguna').modal('hide');
                         })
                     } else {
                         Swal.fire('Proses Gagal!', response.message, 'error');
