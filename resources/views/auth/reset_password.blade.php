@@ -50,7 +50,7 @@
           </div>
         </div>
         <div class="simple-footer">
-          Copyright &copy; Caraka 2023
+          Copyright &copy; Caraka Tech 2023
         </div>
       </div>
     </div>

@@ -74,7 +74,7 @@
                 </div>
                 <div class="card-body">
                 <div class="table-responsive">
-                    <table class="table table-striped" id="perhitungan-table">
+                    <table class="table table-bordered table-hover" id="perhitungan-table">
                     <thead>
                         <tr>
                         <th class="text-center">
@@ -82,8 +82,10 @@
                         </th>
                         <th>Nama Barang</th>
                         <th>Brand Barang</th>
+                        <th>Umur Ekonomis</th>
                         <th>Tanggal Perhitungan</th>
                         <th>Nilai Penyusutan</th>
+                        <th>Harga Saat ini</th>
                         <th>Aksi</th>
                         </tr>
                     </thead>
@@ -103,6 +105,15 @@
 @push('script')
 <script>
     $(document).ready(function(){
+        $('.datepicker').datepicker({
+            language: "es",
+            autoclose: true,
+            format: "yyyy/mm/dd",
+            // format: "dd/mm/yyyy",
+            // startDate: '-2m',
+            endDate: '0d'
+        });
+        
         $.ajaxSetup({
             headers:{
                 'X-CSRF-TOKEN':$('meta[name="csrf-token"]').attr('content')
@@ -119,8 +130,16 @@
                 }},
                 { data: 'nama_barang', name: 'nama_barang' },
                 { data: 'brand_barang', name: 'brand_barang' },
+                { data: 'umurekonomis_barang', name: 'umurekonomis_barang', className: 'text-center', render: function (data, type, row, meta) {
+                    return data + ' Tahun';
+                }},
                 { data: 'tanggal_perhitungan', name: 'tanggal_perhitungan'},
-                { data: 'hasil_perhitungan', name: 'hasil_perhitungan'},
+                { data: 'hasil_perhitungan', name: 'hasil_perhitungan', render: function (data, type, row, meta) {
+                    return 'Rp. '+ data;
+                }},
+                { data: 'harga_terbaru', name: 'harga_terbaru', render: function (data, type, row, meta) {
+                    return 'Rp. '+ data;
+                }},
                 { data: 'action', name: 'action', className: 'text-center', orderable: false, searchable: false },
             ]
         });
@@ -156,8 +175,8 @@
                     
             var round = Math.round;
             let percentage = round(tarif_penyusutan) / 100 ;
-            var hasil = round(harga_perolehan) * percentage;
-            $('#hasil_perhitungan').val(hasil);
+            var hasil = round(harga_perolehan) * percentage / 12;
+            $('#hasil_perhitungan').val(round(hasil));
         });
 
         $("#savePerhitungan").click(function(e){

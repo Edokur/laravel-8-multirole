@@ -32,6 +32,8 @@ class UserSeeder extends Seeder
                 'nohp' => '082278765617',
                 'alamat' => 'Yogyakarta',
                 'photo' => '',
+                'role' => 'Admin',
+                'is_active' => '1',
             ]);
 
             $pimpinan = User::create([
@@ -43,6 +45,8 @@ class UserSeeder extends Seeder
                 'nohp' => '08112121',
                 'alamat' => 'Yogyakarta',
                 'photo' => '',
+                'role' => 'Pimpinan',
+                'is_active' => '1',
             ]);
 
             $pegawai = User::create([
@@ -54,6 +58,8 @@ class UserSeeder extends Seeder
                 'nohp' => '083232',
                 'alamat' => 'Yogyakarta',
                 'photo' => '',
+                'role' => 'Pegawai',
+                'is_active' => '1',
             ]);
 
 

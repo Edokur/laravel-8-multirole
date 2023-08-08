@@ -20,7 +20,7 @@
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
-                    <table class="table table-striped" id="Pegawai_Detailbarang_table">
+                    <table class="table table-bordered table-hover" id="Pegawai_Detailbarang_table">
                         <thead>
                         <tr>
                             <th class="text-center">
@@ -75,7 +75,7 @@
                 </div>
                 <div class="form-group">
                 <label for="Name">Jumlah Barang <span class="text-danger">*</span></label>
-                <input type="text" class="form-control" name="jumlah_barang" id="PDjumlah_barang" placeholder="Enter Jumlah Barang" disabled value="">
+                <input type="text" class="form-control" name="jumlah_barang" id="PDstok_barang" placeholder="Enter Jumlah Barang" disabled value="">
                 </div>
                 <div class="form-group">
                 <label for="Name">Kondisi <span class="text-danger">*</span></label>
@@ -88,6 +88,11 @@
                 <div class="form-group">
                 <label for="Name">Spesifikasi <span class="text-danger">*</span></label>
                 <input type="text" class="form-control" name="spesifikasi_barang" id="PDspesifikasi_barang" placeholder="Enter Spesifikasi" disabled value="">
+                </div>
+                <div class="form-group" id="output_foto">
+                    <label for="Name">Foto Barang <span class="text-danger">*</span></label>
+                    <div class="input-group" id="PDimg_barang">
+                    </div>
                 </div>
             </form>
             </div>
@@ -119,7 +124,7 @@
                 { data: 'kode_barang', name: 'kode_barang' },
                 { data: 'brand_barang', name: 'brand_barang'},
                 { data: 'harga_barang', name: 'harga_barang'},
-                { data: 'jumlah_barang', name: 'jumlah_barang'},
+                { data: 'stok_barang', name: 'stok_barang'},
                 { data: 'kondisi_barang', name: 'kondisi_barang'},
                 { data: 'action', name: 'action', className: 'text-center', orderable: false, searchable: false },
             ]
@@ -142,9 +147,10 @@
                     $('#PDbrand_barang').val(response[0].brand_barang);
                     $('#PDharga_barang').val(response[0].harga_barang);
                     $('#PDtanggal_pembelian').val(response[0].tanggal_pembelian);
-                    $('#PDjumlah_barang').val(response[0].jumlah_barang);
+                    $('#PDstok_barang').val(response[0].stok_barang);
                     $('#PDkondisi_barang').val(response[0].kondisi_barang);
                     $('#PDumurekonomis_barang').val(response[0].umurekonomis_barang);
+                    $('#PDimg_barang').html('<img src="{!! url('assets/img_barang/') !!}/'+response[0].img_barang+'" width="80%" height="80%"/>');
                     $('#PDspesifikasi_barang').val(response[0].spesifikasi);
                     $('#PegawaidetailModalBarangDetailV2').modal('show');
                 },

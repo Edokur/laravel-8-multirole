@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
   <title>{{ $title }}</title>
+  <link href='{{ asset('/') }}assets/img/logo-beecon.png' rel='shortcut icon'>
 
   <!-- General CSS Files -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
@@ -38,7 +39,7 @@
       </div>
       <footer class="main-footer">
         <div class="footer-left">
-          Copyright &copy; 2023 <div class="bullet"></div> Design By <a href="https://nauval.in/">Caraka</a>
+          Copyright &copy; 2023 <div class="bullet"></div> Design By <a href="https://github.com/Edokur">Caraka Tech</a>
         </div>
         <div class="footer-right">
           2.3.0
@@ -63,17 +64,19 @@
   <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html5-qrcode/2.0.1/html5-qrcode.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.3.0/dist/chart.umd.min.js"></script>
 
   <!-- Template JS File -->
   <script src="{{ asset('/') }}assets/js/html5-qrcode-css.js"></script>
   <script src="{{ asset('/') }}assets/js/scripts.js"></script>
   <script src="{{ asset('/') }}assets/js/custom.js"></script>
+  {{-- <script src="{{ asset('js/Chart.min.js') }}"></script> --}}
 
   <!-- Page Specific JS File -->
   <script src="{{ asset('/') }}assets/js/pengguna.js"></script>
   <script src="{{ asset('/') }}assets/js/profile.js"></script>
   {{-- <script src="{{ asset('/') }}assets/js/barang_detail.js"></script> --}}
-  <script src="{{ asset('/') }}assets/js/perhitungan.js"></script>
+  {{-- <script src="{{ asset('/') }}assets/js/perhitungan.js"></script> --}}
   @stack('script')
   
 </body>

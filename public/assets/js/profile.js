@@ -48,7 +48,7 @@ $(function() {
                             location.reload();
                         })
                     } else {
-                        Swal.fire('Proses Gagal!', response.message, 'error');
+                        Swal.fire('Proses Gagal!', response.message, 'info');
                     }
                     
                 },

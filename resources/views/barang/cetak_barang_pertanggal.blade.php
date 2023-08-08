@@ -1,21 +1,3 @@
-{{-- @extends('layouts.main')
-@section('content')
-<section class="section">
-    <div class="section-header">
-        <h1>{{ $title }}</h1>
-        <div class="section-header-breadcrumb">
-        <div class="breadcrumb-item active"><a href="#">Data</a></div>
-        <div class="breadcrumb-item"><a href="#">{{ $title }}</a></div>
-        <div class="breadcrumb-item">{{ $title }}</div>
-        </div>
-    </div>
-    <div class="section-body">
-
-    </div>
-
-</section>
-@endsection --}}
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -39,6 +21,8 @@
                 <th>Nama Barang</th>
                 <th>Brand Barang</th>
                 <th>Harga Barang</th>
+                <th>Jumlah Barang</th>
+                <th>Umur Ekonomis</th>
                 <th>Kondisi Barang</th>
                 <th>Spesifikasi Barang</th>
             </tr>
@@ -48,7 +32,9 @@
                 <td class="mx-1">{{ $item->kode_barang }}</td>
                 <td class="mx-1">{{ $item->nama_barang }}</td>
                 <td class="mx-1">{{ $item->brand_barang }}</td>
-                <td class="mx-1">{{ $item->harga_barang }}</td>
+                <td class="mx-1">RP.{{ $item->harga_barang }}</td>
+                <td class="mx-1">{{ $item->jumlah_barang }}</td>
+                <td class="mx-1">{{ $item->umurekonomis_barang }} Tahun</td>
                 <td class="mx-1">{{ $item->kondisi_barang }}</td>
                 <td class="mx-1">{{ $item->spesifikasi }}</td>
             </tr>

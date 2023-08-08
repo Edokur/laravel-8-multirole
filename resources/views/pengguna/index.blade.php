@@ -11,17 +11,16 @@
   </div>
 
   <div class="section-body">
-  {{-- <<?= dd(auth()->user()); ?> --}}
       <a href="javascript:void(0)" id="createNewPengguna" data-original-title="edit" class="mb-3 btn btn-success">Tambah Pengguna</a>
       <div class="row">
         <div class="col-12">
           <div class="card">
-            <div class="card-header">
+            {{-- <div class="card-header">
               <h4>Basic DataTables</h4>
-            </div>
+            </div> --}}
             <div class="card-body">
               <div class="table-responsive">
-                <table class="table table-striped" id="pengguna-table">
+                <table class="table table-bordered table-hover" id="pengguna-table">
                   <thead>
                     <tr>
                       <th class="text-center">

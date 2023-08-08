@@ -12,7 +12,7 @@
 
     <div class="section-body">
         <a href="/barang"  data-original-title="kembali" class="btn btn-primary"><svg class="mr-2" xmlns="http://www.w3.org/2000/svg" height="1.2em" viewBox="0 0 448 512"><style>svg{fill:#ffffff}</style><path d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.2 288 416 288c17.7 0 32-14.3 32-32s-14.3-32-32-32l-306.7 0L214.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg> Kembali</a><br>
-        <a href="javascript:void(0)" id="createNewBarangDetail" data-original-title="edit" class="my-3 btn btn-success createNewBarangDetail">Tambah Barang</a>
+        <a href="javascript:void(0)" id="createNewBarangDetail" data-original-title="edit" class="my-3 btn btn-success createNewBarangDetail">Tambah Brand Barang</a>
             <div class="row">
             <div class="col-12">
                 <div class="card">
@@ -21,7 +21,7 @@
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
-                    <table class="table table-striped" id="Detailbarang_table">
+                    <table class="table table-bordered table-hover" id="Detailbarang_table">
                         <thead>
                         <tr>
                             <th class="text-center">
@@ -30,6 +30,7 @@
                             <th>Kode Barang</th>
                             <th>Brand Barang</th>
                             <th>Harga Barang</th>
+                            <th>Jumlah Barang</th>
                             <th>Stok Barang</th>
                             <th>Kondisi Barang</th>
                             <th>Aksi</th>
@@ -65,7 +66,7 @@
                 </div>
                 <div class="form-group">
                     <label for="Name">Brand <span class="text-danger">*</span></label>
-                    <input type="text" class="form-control" name="brand_barang" id="brand_barang" placeholder="Enter Tanggal">
+                    <input type="text" class="form-control" name="brand_barang" id="brand_barang" placeholder="Enter Brand">
                 </div>
                 <div class="form-group">
                     <label for="Name">Harga <span class="text-danger">*</span></label>
@@ -81,7 +82,11 @@
                 </div>
                 <div class="form-group">
                     <label for="Name">Kondisi <span class="text-danger">*</span></label>
-                    <input type="text" class="form-control" name="kondisi_barang" id="kondisi_barang" placeholder="Enter Kondisi Barang">
+                    <select class="form-control" name="kondisi_barang" id="kondisi_barang" >
+                        <option value="">Semua</option>
+                        <option value="Baru">Baru</option>
+                        <option value="Bekas">Bekas</option>
+                    </select>
                 </div>
                 <div class="form-group">
                     <label for="Name">Umur Ekonomis (thn)<span class="text-danger">*</span></label>
@@ -143,11 +148,15 @@
                 </div>
                 <div class="form-group">
                 <label for="Name">Jumlah Barang <span class="text-danger">*</span></label>
-                <input type="text" class="form-control" name="Ejumlah_barang" id="Ejumlah_barang" placeholder="Enter Jumlah Barang"  value="">
+                <input type="text" class="form-control" name="Ejumlah_barang" id="Ejumlah_barang" placeholder="Enter Jumlah Barang" disabled value="">
                 </div>
                 <div class="form-group">
                 <label for="Name">Kondisi <span class="text-danger">*</span></label>
-                <input type="text" class="form-control" name="Ekondisi_barang" id="Ekondisi_barang" placeholder="Enter Kondisi Barang"  value="">
+                <select class="form-control" name="Ekondisi_barang" id="Ekondisi_barang" >
+                    <option value="">Semua</option>
+                    <option value="Baru">Baru</option>
+                    <option value="Bekas">Bekas</option>
+                </select>
                 </div>
                 <div class="form-group">
                 <label for="Name">Umur Ekonomis (thn)<span class="text-danger">*</span></label>
@@ -277,6 +286,13 @@
             }
         });
 
+        $('.datepicker').datepicker({
+            language: "es",
+            autoclose: true,
+            format: "yyyy/mm/dd",
+            endDate: '0d'
+        });
+
         var barangDetail_table = $('#Detailbarang_table').DataTable({
             processing: true,
             serverSide: true,
@@ -287,8 +303,11 @@
                 }},
                 { data: 'kode_barang', name: 'kode_barang' },
                 { data: 'brand_barang', name: 'brand_barang'},
-                { data: 'harga_barang', name: 'harga_barang'},
+                { data: 'harga_barang', name: 'harga_barang', render: function (data, type, row, meta) {
+                    return 'Rp. ' + data;
+                }},
                 { data: 'jumlah_barang', name: 'jumlah_barang'},
+                { data: 'stok_barang', name: 'stok_barang'},
                 { data: 'kondisi_barang', name: 'kondisi_barang'},
                 { data: 'action', name: 'action', className: 'text-center', orderable: false, searchable: false },
                 { data: 'qr_code', name: 'qr_code', orderable: false, searchable: false, render: function (data, type, row, meta) {
@@ -314,8 +333,6 @@
                 data: data,
                 dataType: 'json',
                 success: function(response) {
-                    console.log(response);
-                    // console.log('{{ asset('/') }}assets/img/logo-beecon.png');
                     $('#Dnama_barang').val(response[0].nama_barang);
                     $('#Dbrand_barang').val(response[0].brand_barang);
                     $('#Dharga_barang').val(response[0].harga_barang);

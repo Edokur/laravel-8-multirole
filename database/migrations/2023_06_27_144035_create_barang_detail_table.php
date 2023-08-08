@@ -18,12 +18,13 @@ class CreateBarangDetailTable extends Migration
             $table->string('kode_barang')->unique();
             $table->unsignedBigInteger('barang_id');
             $table->string('jumlah_barang');
+            $table->string('stok_barang');
             $table->string('brand_barang');
             $table->string('harga_barang');
             $table->date('tanggal_pembelian');
-            $table->string('kondisi_barang');
+            $table->enum('kondisi_barang', ['Baru', 'Bekas'])->default('Baru');
             $table->string('umurekonomis_barang');
-            $table->string('spesifikasi');
+            $table->longText('spesifikasi');
             $table->enum('is_active', ['1', '0'])->default('0');
             $table->string('img_barang')->nullable();
             $table->string('qr_code')->nullable();

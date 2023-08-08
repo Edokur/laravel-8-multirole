@@ -49,7 +49,7 @@
                                 </div>
                                 <div class="form-group col-md-6 col-12">
                                     <label>Username</label>
-                                    <input type="text" class="form-control" name="username" id="usernameProfile" value="{{ auth()->user()->username }}" required="">
+                                    <input type="text" class="form-control" name="username" id="usernameProfile" value="{{ auth()->user()->username }}" required="" disabled>
                                 </div>
                             </div>
                             <div class="row">

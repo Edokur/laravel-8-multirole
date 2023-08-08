@@ -13,15 +13,6 @@ use Yajra\DataTables\Facades\DataTables;
 
 class PenggunaController extends Controller
 {
-    public function __construct()
-    {
-        // $this->middleware('can:crate pengguna')->only('create');
-    }
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index(Request $request)
     {
         $pengguna = User::all();
@@ -59,25 +50,8 @@ class PenggunaController extends Controller
         return $data;
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        return 'create pengguna';
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        // dd($request->name);
         $request->validate([
             'name' => 'required',
             'username' => 'required',
@@ -108,23 +82,6 @@ class PenggunaController extends Controller
         return $response;
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
         $user = DB::table('users')->find($id);
@@ -135,13 +92,6 @@ class PenggunaController extends Controller
         ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request)
     {
         $request->validate([
@@ -177,12 +127,6 @@ class PenggunaController extends Controller
         return $response;
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
         $deleted = DB::table('users')->where('id',  $id)->delete();

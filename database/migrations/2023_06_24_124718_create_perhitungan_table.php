@@ -21,7 +21,7 @@ class CreatePerhitunganTable extends Migration
             $table->string('tarif_penyusutan');
             $table->string('hasil_perhitungan');
             $table->string('brand_barang');
-            $table->string('harga_barang');
+            $table->string('harga_terbaru');
             $table->date('tanggal_perhitungan');
             $table->string('umurekonomis_barang');
             $table->enum('is_active', ['1', '0'])->default('0');

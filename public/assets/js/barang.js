@@ -1,5 +1,14 @@
 
 $(function() {
+    $('.datepicker').datepicker({
+        language: "es",
+        autoclose: true,
+        format: "yyyy/mm/dd",
+        // format: "dd/mm/yyyy",
+        // startDate: '0d',
+        endDate: '0d'
+    });
+    
     $.ajaxSetup({
         headers:{
             'X-CSRF-TOKEN':$('meta[name="csrf-token"]').attr('content')

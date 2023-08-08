@@ -19,6 +19,7 @@ use Yajra\DataTables\Facades\DataTables;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use BaconQrCode\Renderer\Image\ImagickImageBackEnd;
 use BaconQrCode\Renderer\RendererStyle\RendererStyle;
+use Carbon\Carbon;
 
 class BarangController extends Controller
 {
@@ -94,16 +95,18 @@ class BarangController extends Controller
 
     public static function BarangcetakPDF(Request $request)
     {
+        $mytime = Carbon::now();
         $cetak = DB::table('barang_detail as bd')
             ->select('*')
             ->leftJoin('barang as b', 'bd.barang_id', '=', 'b.id')
-            ->whereBetween('tanggal_registrasi', [$request->tanggal_awal, $request->tanggal_akhir])
+            ->whereBetween('tanggal_pembelian', [$request->tanggal_awal, $request->tanggal_akhir])
             ->get();
 
         if ($cetak->isNotEmpty()) {
             $pdf = App::make('dompdf.wrapper');
+            $pdf->setPaper('a4', 'landscape');
             $pdf->loadView('barang.cetak_barang_pertanggal', compact('cetak'));
-            return $pdf->download('Laporan-barang.pdf');
+            return $pdf->download('Laporan-barang(' . $mytime->toDateString() . ').pdf');
         } else {
             $response['success'] = false;
             $response['message'] = 'Tidak Memiliki Data Barang Dalam Jangka Waktu Tersebut';
@@ -140,7 +143,7 @@ class BarangController extends Controller
     public function detail($id)
     {
         $barang = DB::table('barang_detail as bd')
-            ->select('bd.id', 'bd.kode_barang', 'bd.brand_barang', 'bd.harga_barang', 'bd.kondisi_barang', 'bd.qr_code', 'bd.jumlah_barang')
+            ->select('bd.id', 'bd.kode_barang', 'bd.brand_barang', 'bd.harga_barang', 'bd.kondisi_barang', 'bd.qr_code', 'bd.stok_barang', 'bd.jumlah_barang')
             ->leftJoin('barang as b', 'bd.barang_id', '=', 'b.id')
             ->where('barang_id', $id)
             ->get();
@@ -174,6 +177,7 @@ class BarangController extends Controller
 
     public function detailupdate(Request $request)
     {
+        // dd($request);
         $kode_barang = $request->kode_barang;
 
         if ($request->hasFile('Eimage_barang') && $request->Eimage_barang != '') {
@@ -191,7 +195,6 @@ class BarangController extends Controller
                     'brand_barang' => $request->Ebrand_barang,
                     'harga_barang' => $request->Eharga_barang,
                     'tanggal_pembelian' => $request->Etanggal_pembelian,
-                    'jumlah_barang' => $request->Ejumlah_barang,
                     'kondisi_barang' => $request->Ekondisi_barang,
                     'umurekonomis_barang' => $request->Eumurekonomis_barang,
                     'spesifikasi' => $request->Espesifikasi_barang,
@@ -204,7 +207,6 @@ class BarangController extends Controller
                     'brand_barang' => $request->Ebrand_barang,
                     'harga_barang' => $request->Eharga_barang,
                     'tanggal_pembelian' => $request->Etanggal_pembelian,
-                    'jumlah_barang' => $request->Ejumlah_barang,
                     'kondisi_barang' => $request->Ekondisi_barang,
                     'umurekonomis_barang' => $request->Eumurekonomis_barang,
                     'spesifikasi' => $request->Espesifikasi_barang,
@@ -235,7 +237,8 @@ class BarangController extends Controller
 
             $data = QrCode::format('png')
                 ->size(580)->color(0, 0, 0)->backgroundColor(255, 255, 255)->errorCorrection('H')->margin(2)
-                ->generate(url($kode_barang), $path);
+                ->generate($kode_barang, $path);
+            // ->generate(url($kode_barang), $path);
             $output_file = $kode_barang . '.png';
 
             $output = DB::table('barang_detail')
@@ -279,11 +282,19 @@ class BarangController extends Controller
             $filename = $request->file('image_barang')->getClientOriginalName();
             $request->file('image_barang')->move(public_path('assets\img_barang'), $filename);
         }
+
+        if ($request->jumlah_barang > 5) {
+            $stok_barang = $request->jumlah_barang - 5;
+        } else {
+            $stok_barang = 0;
+        }
+
         $barang = new Barang_Detail;
         $barang->kode_barang = $kodeBarang;
         $barang->barang_id = $request->barang_id;
         $barang->brand_barang = $request->brand_barang;
         $barang->jumlah_barang = $request->jumlah_barang;
+        $barang->stok_barang = $stok_barang;
         $barang->harga_barang = $request->harga_barang;
         $barang->tanggal_pembelian = $request->tanggal_pembelian;
         $barang->kondisi_barang = $request->kondisi_barang;
@@ -374,7 +385,7 @@ class BarangController extends Controller
     public function detail_pegawai($id)
     {
         $barang_detail = DB::table('barang_detail as bd')
-            ->select('bd.id', 'bd.kode_barang', 'bd.brand_barang', 'bd.harga_barang', 'bd.kondisi_barang', 'bd.jumlah_barang')
+            ->select('bd.id', 'bd.kode_barang', 'bd.brand_barang', 'bd.harga_barang', 'bd.kondisi_barang', 'bd.stok_barang')
             ->leftJoin('barang as b', 'bd.barang_id', '=', 'b.id')
             ->where('barang_id', $id)
             ->get();
@@ -400,5 +411,96 @@ class BarangController extends Controller
             'title' => 'Data Barang',
             'nama_barang' => $data_barang[0]->nama_barang,
         ]);
+    }
+
+    // halaman admin 
+    public function index_pimpinan(Request $request)
+    {
+        $barang_pegawai = Barang::all();
+        if ($request->ajax()) {
+            $allData = DataTables::of($barang_pegawai)
+                ->addIndexColumn()
+                ->addColumn('jumlah', function ($row) {
+                    return $this->jumlahBarang($row->id);
+                })
+                ->rawColumns(['jumlah'])
+                ->addColumn('action', function ($row) {
+                    $btn = '<a href="/barang_pimpinan/detail/' . $row->id . '" data-toggle-"tooltip" data-id="' . $row->id . '" data-original-title="detail" class="mr-1 detail btn btn-info btn-sm detailBarang"><svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512"><style>svg{fill:#ffffff}</style><path d="M64 32C28.7 32 0 60.7 0 96v64c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V96c0-35.3-28.7-64-64-64H64zm280 72a24 24 0 1 1 0 48 24 24 0 1 1 0-48zm48 24a24 24 0 1 1 48 0 24 24 0 1 1 -48 0zM64 288c-35.3 0-64 28.7-64 64v64c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V352c0-35.3-28.7-64-64-64H64zm280 72a24 24 0 1 1 0 48 24 24 0 1 1 0-48zm56 24a24 24 0 1 1 48 0 24 24 0 1 1 -48 0z"/></svg></a>';
+                    return $btn;
+                })
+                ->rawColumns(['action'])
+                ->make(true);
+
+            return $allData;
+        }
+
+        return view('barang.index_pimpinan', compact('barang_pegawai'), [
+            'title' => 'Data Barang',
+        ]);
+    }
+
+    public function detail_pimpinan($id)
+    {
+        $barang_detail = DB::table('barang_detail as bd')
+            ->select('bd.id', 'bd.kode_barang', 'bd.brand_barang', 'bd.harga_barang', 'bd.kondisi_barang', 'bd.stok_barang', 'bd.jumlah_barang')
+            ->leftJoin('barang as b', 'bd.barang_id', '=', 'b.id')
+            ->where('barang_id', $id)
+            ->get();
+
+        if (request()->ajax()) {
+            $allData = DataTables::of($barang_detail)
+                ->addIndexColumn()
+                ->addColumn('action', function ($row) {
+                    $btn = '<a href="javascript:void(0)" data-toggle-"tooltip" data-kode_barang="' . $row->kode_barang . '" data-original-title="detail" class="mr-1 detail btn btn-info btn-sm modaldetailBarangPegawai"><svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512"><style>svg{fill:#ffffff}</style><path d="M64 32C28.7 32 0 60.7 0 96v64c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V96c0-35.3-28.7-64-64-64H64zm280 72a24 24 0 1 1 0 48 24 24 0 1 1 0-48zm48 24a24 24 0 1 1 48 0 24 24 0 1 1 -48 0zM64 288c-35.3 0-64 28.7-64 64v64c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V352c0-35.3-28.7-64-64-64H64zm280 72a24 24 0 1 1 0 48 24 24 0 1 1 0-48zm56 24a24 24 0 1 1 48 0 24 24 0 1 1 -48 0z"/></svg></a>';
+                    return $btn;
+                })
+                ->rawColumns(['action'])
+                ->make(true);
+
+            return $allData;
+        }
+
+        $data_barang = DB::table('barang')
+            ->where('id', $id)
+            ->get();
+
+        return view('barang.detail_pimpinan', compact('barang_detail'), [
+            'title' => 'Data Barang',
+            'nama_barang' => $data_barang[0]->nama_barang,
+        ]);
+    }
+
+    public function halpdf_pimpinan()
+    {
+        $barang = DB::table('barang_detail as bd')
+            ->select('*')
+            ->leftJoin('barang as b', 'bd.barang_id', '=', 'b.id')
+            ->get();
+
+        return view('barang.halpdf_pimpinan', compact('barang'), [
+            'title' => 'Data Barang'
+        ]);
+    }
+
+    public static function BarangcetakPDF_pimpinan(Request $request)
+    {
+        $cetak = DB::table('barang_detail as bd')
+            ->select('*')
+            ->leftJoin('barang as b', 'bd.barang_id', '=', 'b.id')
+            ->whereBetween('tanggal_pembelian', [$request->tanggal_awal, $request->tanggal_akhir])
+            ->get();
+
+        $mytime = Carbon::now();
+
+        if ($cetak->isNotEmpty()) {
+            $pdf = App::make('dompdf.wrapper');
+            $pdf->setPaper('a4', 'landscape');
+            $pdf->loadView('barang.cetak_barang_pertanggal', compact('cetak'));
+            return $pdf->download('Laporan-barang' . ($mytime->toDateString()) . '.pdf');
+        } else {
+            $response['success'] = false;
+            $response['message'] = 'Tidak Memiliki Data Barang Dalam Jangka Waktu Tersebut';
+        }
+        return $response;
     }
 }

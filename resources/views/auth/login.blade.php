@@ -38,7 +38,7 @@
                   @csrf
                   <div class="form-group">
                     <label for="email">Email</label>
-                    <input id="email" type="email" class="form-control" name="email" tabindex="1" required autofocus>
+                    <input id="email" type="email" class="form-control" name="email" tabindex="1" required autofocus placeholder="Email">
                     @if ($errors->has('email'))
                       <span class="text-danger">{{ $errors->first('email') }}</span>
                     @endif
@@ -53,7 +53,7 @@
                         </a>
                       </div>
                     </div>
-                    <input id="password" type="password" class="form-control" name="password" tabindex="2" required>
+                    <input id="password" type="password" class="form-control" name="password" tabindex="2" required placeholder="Password">
                     @if ($errors->has('password'))
                       <span class="text-danger">{{ $errors->first('password') }}</span>
                     @endif
@@ -61,18 +61,15 @@
 
                   <div class="form-group">
                     <button type="submit" class="btn btn-warning btn-lg btn-block" tabindex="4">
-                      <div >LOGIN</div>
+                      <div>LOGIN</div>
                     </button>
                   </div>
                 </form>
 
               </div>
-            {{-- </div>
-            <div class="mt-5 text-muted text-center">
-              Don't have an account? <a href="auth-register.html">Create One</a>
-            </div> --}}
+
             <div class="simple-footer">
-              Copyright &copy; Caraka 2023
+              Copyright &copy; Caraka Tech 2023
             </div>
           </div>
         </div>

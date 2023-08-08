@@ -24,18 +24,20 @@ class AuthController extends Controller
 
         $data = $request->only(['email', 'password']);
 
-        $cek_aktif = DB::table('users')->where('email', $data['email'])->get();
-
-        if ($cek_aktif[0]->is_active == 1) {
-            if (Auth::attempt($data)) {
-                $request->session()->regenerate();
-                return redirect()->intended('/dashboard');
+        $cek_aktif = DB::table('users')->where('email', $data['email'])->first();
+        if ($cek_aktif != null) {
+            if ($cek_aktif->is_active == 1) {
+                if (Auth::attempt($data)) {
+                    $request->session()->regenerate();
+                    return redirect()->intended('/dashboard');
+                }
+            } else {
+                return back()->with('error', 'Data Anda Tidak Aktif');
             }
         } else {
-            return back()->with('error', 'Data Anda Tidak Aktif');
+            return back()->with('error', 'Email atau Password Salah!!!');
         }
-
-        return back()->with('error', 'Gagal masuk!');
+        return back()->with('error', 'Email atau Password Salah!!!');
     }
 
     public function logout(Request $request)

@@ -15,19 +15,17 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
-                <h4>Basic DataTables</h4>
-                </div>
+                    <h4>Jenis Barang</h4>
+                  </div>
                 <div class="card-body">
                 <div class="table-responsive">
-                    <table class="table table-striped" id="pegawai-barang-table">
+                    <table class="table table-bordered table-hover" id="pegawai-barang-table">
                     <thead>
                         <tr>
                         <th class="text-center">
                             No
                         </th>
                         <th>Nama Barang</th>
-                        <th>Tanggal Registrasi</th>
-                        <th>Pendistribusian</th>
                         <th>Jumlah Brand</th>
                         <th>Aksi</th>
                         </tr>
@@ -63,9 +61,7 @@
                 return meta.row + meta.settings._iDisplayStart + 1;
             }},
             { data: 'nama_barang', name: 'nama_barang'},
-            { data: 'tanggal_registrasi', name: 'tanggal_registrasi'},
-            { data: 'pendistribusian', name: 'pendistribusian', orderable: false, searchable: false},
-            { data: 'jumlah', name: 'jumlah', className: 'text-center', searchable: false},
+            { data: 'jumlah', name: 'stok_barang', className: 'text-center', searchable: false},
             { data: 'action', name: 'action', orderable: false, searchable: false },
         ]
     });

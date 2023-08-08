@@ -12,7 +12,7 @@ class Perhitungan extends Model
     protected $table = 'perhitungan';
 
     protected $fillable = [
-        'nama_barang', 'tanggal_registrasi', 'pendistribusian',
+        'nama_barang', 'tanggal_registrasi', 'pendistribusian', 'harga_terbaru'
     ];
 
     protected $hidden = [

@@ -19,20 +19,24 @@
                 <th>No</th>
                 <th>Nama Barang</th>
                 <th>Brand Barang</th>
-                <th>Harga Barang</th>
+                <th>Harga Perolehan</th>
                 <th>Umur Ekonomis Barang</th>
                 <th>Tarif Penyusutan</th>
+                <th>Tanggal Perhitungan</th>
                 <th>Hasil Penyusutan (Perbulan)</th>
+                <th>Harga Saat Ini</th>
             </tr>
             @foreach ($cetak as $item)
             <tr>
-                <td class="mx-1">{{ $loop->iteration }}</td>
-                <td class="mx-1">{{ $item->nama_barang }}</td>
-                <td class="mx-1">{{ $item->brand_barang }}</td>
-                <td class="mx-1">Rp.{{ $item->harga_barang }}</td>
-                <td class="mx-1">{{ $item->umurekonomis_barang }}</td>
-                <td class="mx-1">{{ $item->tarif_penyusutan }} %</td>
-                <td class="mx-1">Rp. {{ $item->hasil_perhitungan }}</td>
+                <td >{{ $loop->iteration }}</td>
+                <td >{{ $item->nama_barang }}</td>
+                <td >{{ $item->brand_barang }}</td>
+                <td >Rp.{{ $item->harga_perolehan }}</td>
+                <td >{{ $item->umurekonomis_barang }} Tahun</td>
+                <td >{{ $item->tarif_penyusutan }} %</td>
+                <td >{{ $item->tanggal_perhitungan }}</td>
+                <td >Rp. {{ $item->hasil_perhitungan }}</td>
+                <td >Rp. {{ $item->harga_terbaru }}</td>
             </tr>
             @endforeach
         </table>

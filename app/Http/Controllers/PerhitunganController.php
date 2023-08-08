@@ -64,9 +64,17 @@ class PerhitunganController extends Controller
             'hasil_perhitungan' => 'required',
         ]);
 
+        $cek_barang = DB::table('barang_detail')->where('kode_barang', $request->kode_barang)->first();
         $cek_data = DB::table('perhitungan')->where('kode_barang', $request->kode_barang)->first();
 
         $mytime = Carbon::now();
+        $perbedaan_bln = Carbon::now()->diff($cek_barang->tanggal_pembelian);
+        if ($perbedaan_bln->m != 0) {
+            $harga_penyusutan = $request->hasil_perhitungan * $perbedaan_bln->m;
+            $harga_saat_ini = $request->harga_perolehan - $harga_penyusutan;
+        } else {
+            $harga_saat_ini = $request->harga_perolehan - $request->hasil_perhitungan;
+        }
 
         if ($cek_data == null) {
             $perhitungan = new Perhitungan;
@@ -74,7 +82,7 @@ class PerhitunganController extends Controller
             $perhitungan->nama_barang = $request->nama_barang;
             $perhitungan->brand_barang = $request->brand_barang;
             $perhitungan->harga_perolehan = $request->harga_perolehan;
-            $perhitungan->harga_barang = $request->harga_perolehan;
+            $perhitungan->harga_terbaru = $harga_saat_ini;
             $perhitungan->tarif_penyusutan = $request->tarif_penyusutan;
             $perhitungan->umurekonomis_barang = $request->umurekonomis_barang;
             $perhitungan->hasil_perhitungan = $request->hasil_perhitungan;
@@ -90,8 +98,22 @@ class PerhitunganController extends Controller
                 $response['message'] = 'Anda Gagal Menambahkan Data Perhitungan';
             }
         } else {
-            $response['success'] = false;
-            $response['message'] = 'Data Perhitungan Tersebut Sudah Tersedia';
+            $output = DB::table('perhitungan')
+                ->where('kode_barang', $request->kode_barang)
+                ->update([
+                    'tanggal_perhitungan' => $mytime->toDateString(),
+                    'harga_terbaru' => $harga_saat_ini,
+                    'tarif_penyusutan' => $request->tarif_penyusutan,
+                    'hasil_perhitungan' => $request->hasil_perhitungan,
+                ]);
+
+            if ($output == true) {
+                $response['success'] = true;
+                $response['message'] = 'Anda Berhasil Memperbarui Data Perhitungan';
+            } else {
+                $response['success'] = false;
+                $response['message'] = 'Anda Gagal Memperbarui Data Perhitungan';
+            }
         }
         return $response;
     }

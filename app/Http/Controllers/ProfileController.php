@@ -13,11 +13,6 @@ use Illuminate\Support\Facades\Storage;
 
 class ProfileController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         return view('profile.index', [
@@ -25,61 +20,10 @@ class ProfileController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request)
     {
         $request->validate([
             'name' => 'required',
-            'username' => 'required',
             'jabatan' => 'required',
         ]);
 
@@ -89,7 +33,6 @@ class ProfileController extends Controller
             ->where('id', $id)
             ->update([
                 'name' => $request->name,
-                'username' => $request->username,
                 'jabatan' => $request->jabatan,
                 'nohp' => $request->nohp,
                 'alamat' => $request->alamat,
@@ -100,21 +43,10 @@ class ProfileController extends Controller
             $response['message'] = 'Anda Berhasil Memperbarui Profile Diri';
         } else {
             $response['success'] = false;
-            $response['message'] = 'Anda Gagal Memperbarui Profile Diri';
+            $response['message'] = 'Tidak Terdapat Perubahan Dalam Profile Diri';
         }
 
         return $response;
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
     }
 
     public function changefoto(Request $request)
